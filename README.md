@@ -14,7 +14,8 @@ dfx 0.9.3
 
 ## Getting started
 
-dfx start --clean --background 
+dfx start --clean --background (note that you can CTRL+C to exit a replica but not the background running replica)
+
 dfx deploy
 
 
