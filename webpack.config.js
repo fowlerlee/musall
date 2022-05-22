@@ -81,6 +81,29 @@ module.exports = {
   //    { test: /\.css$/, use: ['style-loader','css-loader'] }
   //  ]
   // },
+  module: {
+	rules: [
+	  { 
+		test: /\.css$/,
+		use: ['style-loader','css-loader']
+	  },
+	  {
+		test: /\.(js|jsx)$/,
+		exclude: /node_modules/,
+		use: {
+		  loader: 'babel-loader',
+		  options: {
+			presets: ['@babel/preset-env'],
+			plugins: ['@babel/plugin-transform-runtime']
+		  }
+		}
+	  },
+	  {
+		test: /\.(png|svg|jpg|jpeg|gif)$/i,
+		type: 'asset/resource',
+	  },
+	]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, asset_entry),
