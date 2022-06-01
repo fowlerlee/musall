@@ -14,7 +14,7 @@ const Cont = styled.div`
 		font-size:1.7rem;
 	}
 `
-export default function Concert() {
+export default function Concerts() {
 
     return <Cont>
 		<div className='title'>Concerts</div>
