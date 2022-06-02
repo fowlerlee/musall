@@ -9,11 +9,15 @@ import Option "mo:base/Option";
 import Bool "mo:base/Bool";
 import Principal "mo:base/Principal";
 import Types "./Types";
+import Debug "mo:base/Debug";
+import Order "mo:base/Order";
 
 //Note: All credit to the maintainers of repo: git@github.com:dfinity/examples.git 
 // see example -> # DIP721 NFT Container
 
-shared actor class Dip721NFT(custodian: Principal, init : Types.Dip721NonFungibleToken) = Self {
+//({ caller = initializer })
+
+shared ({ caller = initializer }) actor class Dip721NFT(custodian: Principal, init : Types.Dip721NonFungibleToken) = Self {
   stable var transactionId: Types.TransactionId = 0;
   stable var nfts = List.nil<Types.Nft>();
   stable var custodians = List.make<Principal>(custodian);
@@ -21,6 +25,75 @@ shared actor class Dip721NFT(custodian: Principal, init : Types.Dip721NonFungibl
   stable var name : Text = init.name;
   stable var symbol : Text = init.symbol;
   stable var maxLimit : Nat16 = init.maxLimit;
+
+  private let MAX_USERS = 1_000;
+  private let MAX_NOTES_PER_USER = 500;
+  private let MAX_DEVICES_PER_USER = 6;
+  private let MAX_NOTE_CHARS = 500;
+  private let MAX_DEVICE_ALIAS_LENGTH = 200;
+  private let MAX_PUBLIC_KEY_LENGTH = 500;
+  private let MAX_CYPHERTEXT_LENGTH = 40_000;
+
+  private type PrincipalName = Text;
+
+  public shared({ caller }) func whoami(): async Text {
+     return Principal.toText(caller);
+  };
+
+  public type Contract = {
+    id: Nat;
+    contract_description: Text;
+    scope_of_work: Text;
+    price_of_contract: Nat;
+    terms_of_ownership: Text;
+    creator: Text;
+    creator_rating: Nat;
+    allowed_number_of_owners: Nat;
+  };
+
+  // public type Description = {
+  //   description: Text;
+  // }
+
+  // private func is_user_registered(principal: Principal): Bool {
+  //     Option.isSome(users.get(principal));
+  // };  
+
+public shared ({caller}) func create_contract(id: Nat, description: Text, scopeOfWork: Text, price: Nat, terms: Text, creator: Text, rating: Nat, maxOwners: Nat){
+    assert not Principal.isAnonymous(caller);
+    assert description.size() <= MAX_NOTE_CHARS;
+    assert scopeOfWork.size() <= MAX_NOTE_CHARS;
+    assert terms.size() <= MAX_NOTE_CHARS;
+  
+  // create the contract object with these params and call each method - eg. pass descrip into add_description
+};
+
+public shared({ caller }) func add_description(description: Text): async () {
+    assert not Principal.isAnonymous(caller);
+    // assert is_user_registered(caller);
+    assert description.size() <= MAX_NOTE_CHARS;
+
+      Debug.print("Adding note...");
+
+    let principalName = Principal.toText(caller);
+    //create contract and add description to it
+    //contract must be some hashmap or structure that allows to hold the data
+    //perhaps make a custom structure that can hold all the data in a unique way
+
+    };
+
+//debug function to help assert code - like try-catch
+  private func expect<T>(opt: ?T, violation_msg: Text): T {
+    switch (opt) {
+        case (null) {
+            Debug.trap(violation_msg);
+        };
+        case (?x) {
+             x
+        };
+    };
+  };
+  
 
   // https://forum.dfinity.org/t/is-there-any-address-0-equivalent-at-dfinity-motoko/5445/3
   let null_address : Principal = Principal.fromText("aaaaa-aa");
