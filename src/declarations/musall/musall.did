@@ -81,7 +81,9 @@ type Dip721NonFungibleToken =
  };
 type Dip721NFT = 
  service {
+   add_description: (text) -> ();
    balanceOfDip721: (principal) -> (nat64) query;
+   create_contract: (nat, text, text, nat, text, text, nat, nat) -> () oneway;
    getMaxLimitDip721: () -> (nat16) query;
    getMetadataDip721: (TokenId) -> (MetadataResult) query;
    getMetadataForUserDip721: (principal) -> (ExtendedMetadataResult);
@@ -95,6 +97,7 @@ type Dip721NFT =
    symbolDip721: () -> (text) query;
    totalSupplyDip721: () -> (nat64) query;
    transferFromDip721: (principal, principal, TokenId) -> (TxReceipt);
+   whoami: () -> (text);
  };
 type ApiError = 
  variant {

@@ -50,7 +50,22 @@ export const idlFactory = ({ IDL }) => {
     'TransferNotification' : IDL.Null,
   });
   const Dip721NFT = IDL.Service({
+    'add_description' : IDL.Func([IDL.Text], [], []),
     'balanceOfDip721' : IDL.Func([IDL.Principal], [IDL.Nat64], ['query']),
+    'create_contract' : IDL.Func(
+        [
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Nat,
+        ],
+        [],
+        ['oneway'],
+      ),
     'getMaxLimitDip721' : IDL.Func([], [IDL.Nat16], ['query']),
     'getMetadataDip721' : IDL.Func([TokenId], [MetadataResult], ['query']),
     'getMetadataForUserDip721' : IDL.Func(
@@ -84,6 +99,7 @@ export const idlFactory = ({ IDL }) => {
         [TxReceipt],
         [],
       ),
+    'whoami' : IDL.Func([], [IDL.Text], []),
   });
   return Dip721NFT;
 };

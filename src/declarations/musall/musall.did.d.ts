@@ -6,7 +6,12 @@ export type ApiError = { 'ZeroAddress' : null } |
   { 'Unauthorized' : null } |
   { 'Other' : null };
 export interface Dip721NFT {
+  'add_description' : ActorMethod<[string], undefined>,
   'balanceOfDip721' : ActorMethod<[Principal], bigint>,
+  'create_contract' : ActorMethod<
+    [bigint, string, string, bigint, string, string, bigint, bigint],
+    undefined,
+  >,
   'getMaxLimitDip721' : ActorMethod<[], number>,
   'getMetadataDip721' : ActorMethod<[TokenId], MetadataResult>,
   'getMetadataForUserDip721' : ActorMethod<[Principal], ExtendedMetadataResult>,
@@ -26,6 +31,7 @@ export interface Dip721NFT {
     [Principal, Principal, TokenId],
     TxReceipt,
   >,
+  'whoami' : ActorMethod<[], string>,
 }
 export interface Dip721NonFungibleToken {
   'maxLimit' : number,
