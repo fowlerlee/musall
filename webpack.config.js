@@ -120,6 +120,7 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
       ...canisterEnvVariables,
+      IDENTITY_CANISTER_ID: "rdmx6-jaaaa-aaaaa-aaadq-cai",
     }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve("buffer/"), "Buffer"],
