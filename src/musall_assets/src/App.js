@@ -23,7 +23,7 @@ function App() {
 	// verifyConnectionAndAgent();
 	// }, []);
 
-	let whitelist = canisterId1
+	let whitelist = [canisterId1,canisterId2,canisterId3]
 	let host = "https://mainnet.dfinity.network"
 
 	useEffect(() => {
