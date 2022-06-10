@@ -1,41 +1,33 @@
 import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
-import NavTop from './NavTop'
-import Nav from './Nav'
-import Home from './sections/Home'
-import Albums from './sections/Albums'
-import VacationHomes from './sections/VacationHomes'
-import Appartments from './sections/Appartments'
-import Concerts from './sections/Concerts'
-import Films from './sections/Films'
-import ResearchProjects from './sections/ResearchProjects'
-
-const MainCont = styled.div`
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-`
+import { Albums } from './Albums/Albums';
+import { Apartments } from './Apartments/Apartments';
+import { Concerts } from './Concerts/Concerts';
+import { Contract } from './Contract/Contract';
+import { Films } from './Films/Films';
+import { ResearchProjects } from './ResearchProjects/ResearchProjects';
+import { VacationHomes } from './VacationHomes/VacationHomes';
 
 export default function Main() {
-
-    return <MainCont>
-		<NavTop />
-		<Nav />
-		<Routes>
-			<Route exact path="/" element={<>Hello world!</>}/>
-			<Route path="/home" element={<Home />}/>
-			<Route path="/albums" element={<Albums />}/>
-			<Route path="/vacation-homes" element={<VacationHomes />}/>
-			<Route path="/appartments" element={<Appartments />}/>
-			<Route path="/concerts" element={<Concerts />}/>
-			<Route path="/films" element={<Films />}/>
-			<Route path="/research-projects" element={<ResearchProjects />}/>
-			<Route path="*" element={
-				<div style={{ padding: "1rem" }}>
-					<p>There's nothing here!</p>
-				</div>
-				}
-			/>
-		</Routes>
-  </MainCont>
+  return (
+    <div>
+      <Routes>
+        <Route path='/' element={<Albums />} />
+        <Route path='/albums' element={<Albums />} />
+        <Route path='/albums/:album_id' element={<Contract />} />
+        <Route path='/albums/:album_id/description' element={<Contract />} />
+        <Route path='/albums/:album_id/scope-of-work' element={<Contract />} />
+        <Route path='/albums/:album_id/price-of-item' element={<Contract />} />
+        <Route
+          path='/albums/:album_id/terms-of-ownership'
+          element={<Contract />}
+        />
+        <Route path='/albums/:album_id/owner' element={<Contract />} />
+        <Route path='/vacation-homes' element={<VacationHomes />} />
+        <Route path='/apartments' element={<Apartments />} />
+        <Route path='/concerts' element={<Concerts />} />
+        <Route path='/films' element={<Films />} />
+        <Route path='/research-projects' element={<ResearchProjects />} />
+      </Routes>
+    </div>
+  );
 }
