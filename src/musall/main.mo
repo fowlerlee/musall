@@ -14,25 +14,27 @@ import Order "mo:base/Order";
 import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Text "mo:base/Blob";
+import Buffer "mo:base/Buffer";
 import Types "./Types";
 
-//Note: All credit to the maintainers of repo: git@github.com:dfinity/examples.git 
-// see example -> # DIP721 NFT Container
-
-//({ caller = initializer })
 
 shared ({ caller = initializer }) actor class () {
   stable var transactionId: Types.TransactionId = 0;
 
   private let MAX_CONTRACTS = 1_000;
-  private let MAX_NOTES_PER_USER = 100;
+  private let MAX_CONTRACTS_PER_USER = 5;
   private let MAX_NOTE_CHARS = 500;
   private let MAX_DEVICE_ALIAS_LENGTH = 200;
   private let MAX_PUBLIC_KEY_LENGTH = 500;
   private let MAX_CYPHERTEXT_LENGTH = 40_000;
 
   private type PrincipalName = Text;
-  private var contractsByUser = Map.HashMap<PrincipalName, List.List<Contract>>(0, Text.equal, Text.hash);
+  // private stable var stable_notesByUser: [(PrincipalName, List.List<Contract>)] = [];
+  private stable var nextNoteId: Nat = 1;
+
+  type buffer = Buffer.Buffer<Contract>;
+
+  private var bufOfContracts : buffer = Buffer.Buffer<Contract>(0);
 
   public shared({ caller }) func whoami(): async Text {
      return Principal.toText(caller);
@@ -49,7 +51,7 @@ shared ({ caller = initializer }) actor class () {
     system_params: SystemParams;
   };
 
-  public type Contract = {
+  private type Contract = {
     id: Nat;
     contract_description: Text;
     scope_of_work: Text;
@@ -83,21 +85,17 @@ shared ({ caller = initializer }) actor class () {
         };
   };
 
-    public shared({caller}) func submit_contract(contract: Contract) : async Result.Result<Nat, Text> {
-    assert not Principal.isAnonymous(caller);
+    public shared({caller}) func submit_contract(contract: Contract) : async Result.Result<Text, Text> {
+    // assert not Principal.isAnonymous(caller); //add the II to this app asap like
     assert contract.contract_description.size() <= MAX_NOTE_CHARS;
     assert contract.scope_of_work.size() <= MAX_NOTE_CHARS;
     assert contract.terms_of_ownership.size() <= MAX_NOTE_CHARS;
     assert contract.allowed_number_of_owners > 0;
     assert contract.id <= MAX_CONTRACTS;
                 
-            let id : Nat = contract.id;
-            let next_proposal_id : Nat = id + 1;
             let principalName = Principal.toText(caller);
-            let userContracts : List.List<Contract> = Option.get(contractsByUser.get(principalName), List.nil<Contract>());
-
             let new_contract : Contract = {
-                id = contract.id;
+                id = nextNoteId;
                 contract_description = contract.contract_description;
                 scope_of_work = contract.scope_of_work;
                 terms_of_ownership = contract.terms_of_ownership;
@@ -107,9 +105,11 @@ shared ({ caller = initializer }) actor class () {
                 allowed_number_of_owners = contract.allowed_number_of_owners;
                 buyers = contract.buyers;
             };
-            
-            contractsByUser.put(principalName, List.push(new_contract, userContracts));
-            #ok(id)
+            nextNoteId += 1;
+            Debug.print("Adding note...");
+
+            bufOfContracts.add(contract);
+            #ok("Contract added by Principal " # principalName )
     };
 
 
