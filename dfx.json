@@ -4,6 +4,10 @@
       "main": "src/musall/main.mo",
       "type": "motoko"
     },
+    "fileupload": {
+      "main": "src/fileupload/main.mo",
+      "type": "motoko"
+    },
     "musall_assets": {
       "dependencies": [
         "musall"
