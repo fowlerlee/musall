@@ -6,12 +6,15 @@ import { Emoji } from 'react-apple-emojis';
 import { useIsMobile } from '../../hooks';
 import PlugConnect from '@psychedelic/plug-connect';
 import canisterIds from '../../../../../.dfx/local/canister_ids.json';
+import { useAlbum } from '../../hooks/useAlbum';
 
-export function ContractMenu({ isOpen, setIsOpen }) {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+export function ContractMenu({ isOpen, setIsOpen, album_id }) {
   const isMobile = useIsMobile();
-  const { album_id } = useParams();
+
+  console.log('[ALBUM ID]:=>', album_id);
+
+  const album_contract = useAlbum('artists');
+  console.log('[ARTIST FROM CONTRACT-MENU]:=>', album_contract);
 
   const canisterId1 = canisterIds.__Candid_UI.local;
   const canisterId2 = canisterIds.musall_assets.local;
@@ -59,7 +62,7 @@ export function ContractMenu({ isOpen, setIsOpen }) {
     return (
       <div>
         <h1>ALBUM MENU</h1>
-        {/* <img src='logo.png' alt='' id='Album-Cover' />; */}
+        <img src='logo.png' alt='' id='Album-Cover' height={100} width={100} />
       </div>
     );
   }

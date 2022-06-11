@@ -10,6 +10,9 @@ import { Page } from '../Page/Page';
 import { albums } from '../../data';
 
 export function Albums() {
+  const location = window.location.href;
+  console.log('[LOCATION FROM ALBUM]:=>', location);
+
   function FeatureAlbum({ feature }) {
     return (
       <Link to={`/albums/${feature?.id}`}>
