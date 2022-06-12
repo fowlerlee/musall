@@ -29,12 +29,13 @@ shared ({ caller = initializer }) actor class () {
   private let MAX_CYPHERTEXT_LENGTH = 40_000;
 
   private type PrincipalName = Text;
-  // private stable var stable_notesByUser: [(PrincipalName, List.List<Contract>)] = [];
   private stable var nextNoteId: Nat = 1;
 
   type buffer = Buffer.Buffer<Contract>;
+  type bufferForPrincipals = Buffer.Buffer<Principal>;
 
   private var bufOfContracts : buffer = Buffer.Buffer<Contract>(0);
+  private var bufOfBuyers : bufferForPrincipals = Buffer.Buffer<Principal>(0);
 
   public shared({ caller }) func whoami(): async Text {
      return Principal.toText(caller);
@@ -60,7 +61,7 @@ shared ({ caller = initializer }) actor class () {
     creator: Principal;
     creator_rating: Nat;
     allowed_number_of_owners: Nat;
-    buyers : List.List<Principal>;
+    buyers : bufferForPrincipals;
   };
 
     // type Result<Ok, Err> = { #ok : Ok; #err : Err };
@@ -85,31 +86,63 @@ shared ({ caller = initializer }) actor class () {
         };
   };
 
-    public shared({caller}) func submit_contract(contract: Contract) : async Result.Result<Text, Text> {
+  public shared({caller}) func creator_contract_submitted(userDescription: Text,
+                                                          userScopeOfWork: Text,
+                                                          priceOfContract: Nat,
+                                                          termsOfOwnership: Text,
+                                                          numberOfTokens: Nat): async Result.Result<Text, Text>{
+    
     // assert not Principal.isAnonymous(caller); //add the II to this app asap like
-    assert contract.contract_description.size() <= MAX_NOTE_CHARS;
-    assert contract.scope_of_work.size() <= MAX_NOTE_CHARS;
-    assert contract.terms_of_ownership.size() <= MAX_NOTE_CHARS;
-    assert contract.allowed_number_of_owners > 0;
-    assert contract.id <= MAX_CONTRACTS;
+    assert userDescription.size() <= MAX_NOTE_CHARS;
+    assert userScopeOfWork.size() <= MAX_NOTE_CHARS;
+    assert termsOfOwnership.size() <= MAX_NOTE_CHARS;
+    assert numberOfTokens  > 0;
+
+    bufOfBuyers.add(caller);
+
+    //create contract
+    switch(?submit_contract(userDescription, userScopeOfWork, priceOfContract, termsOfOwnership, numberOfTokens, caller)){
+      case(null){
+        throw Error.reject("Contract submission not available at present")
+      };
+      case(value){
+        #ok("Your contract submission was successfull")
+      };
+    };
+  };
+
+    public func submit_contract(userDescription: Text, 
+                                                  userScopeOfWork: Text, 
+                                                  priceOfContract: Nat, 
+                                                  termsOfOwnership: Text, 
+                                                  numberOfTokens: Nat,
+                                                  creator: Principal) : async Result.Result<Text, Text> {
+    
+    assert nextNoteId <= MAX_CONTRACTS;
                 
-            let principalName = Principal.toText(caller);
+        let principalName = Principal.toText(creator);
             let new_contract : Contract = {
                 id = nextNoteId;
-                contract_description = contract.contract_description;
-                scope_of_work = contract.scope_of_work;
-                terms_of_ownership = contract.terms_of_ownership;
-                creator = caller;
-                price_of_contract = contract.price_of_contract;
-                creator_rating = contract.creator_rating;
-                allowed_number_of_owners = contract.allowed_number_of_owners;
-                buyers = contract.buyers;
+                contract_description = userDescription;
+                scope_of_work = userScopeOfWork;
+                terms_of_ownership = termsOfOwnership;
+                creator = creator;
+                price_of_contract = priceOfContract;
+                creator_rating = 1;
+                allowed_number_of_owners = numberOfTokens;
+                buyers = bufOfBuyers;
             };
             nextNoteId += 1;
             Debug.print("Adding note...");
 
-            bufOfContracts.add(contract);
-            #ok("Contract added by Principal " # principalName )
+            switch(?bufOfContracts.add(new_contract)){
+              case(null){
+                throw Error.reject("Not Found")
+              };
+              case(value){
+                #ok("Contract added by Principal " # principalName)
+              };
+            };
     };
 
 

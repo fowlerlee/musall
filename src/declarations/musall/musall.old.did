@@ -1,0 +1,10 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+service : {
+  creator_contract_submitted: (text, text, nat, text, nat) -> (Result);
+  submit_contract: (text, text, nat, text, nat, principal) -> (Result);
+  whoami: () -> (text);
+}
