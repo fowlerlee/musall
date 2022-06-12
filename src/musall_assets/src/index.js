@@ -13,7 +13,7 @@ const app = createRoot(container);
 
 // console.log("musall: ", musall);
 // const getData = async () => {
-//   let data = await musall.totalSupplyDip721();
+//   let data = await musall.submit_contract();
 //   console.log(data);
 //   return data
 // }

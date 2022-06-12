@@ -14,6 +14,7 @@ import { Price } from './components/Price/Price';
 import { Scope } from './components/Scope/Scope';
 import { Terms } from './components/Terms/Terms';
 import { AlbumContextProvider } from './context/Album';
+import UploadButton from '../src/components/atoms/uploadButton';
 
 function App() {
   // const verifyConnectionAndAgent = async () => {
@@ -34,7 +35,15 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<Header />} />
-          <Route path='/albums' element={<Albums />} />
+          <Route
+            path='/albums'
+            element={
+              <>
+                <UploadButton />
+                <Albums />
+              </>
+            }
+          />
           <Route
             path='/albums/:album_id'
             element={

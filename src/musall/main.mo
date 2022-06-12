@@ -1,247 +1,178 @@
+import Array "mo:base/Array";
+import Bool "mo:base/Bool";
+import Debug "mo:base/Debug";
+import Error "mo:base/Error";
+import List "mo:base/List";
+import Map "mo:base/HashMap";
 import Nat "mo:base/Nat";
-import Nat8 "mo:base/Nat8";
 import Nat16 "mo:base/Nat16";
 import Nat32 "mo:base/Nat32";
 import Nat64 "mo:base/Nat64";
-import List "mo:base/List";
-import Array "mo:base/Array";
+import Nat8 "mo:base/Nat8";
 import Option "mo:base/Option";
-import Bool "mo:base/Bool";
-import Principal "mo:base/Principal";
-import Types "./Types";
-import Debug "mo:base/Debug";
 import Order "mo:base/Order";
+import Principal "mo:base/Principal";
+import Result "mo:base/Result";
+import Text "mo:base/Blob";
+import Buffer "mo:base/Buffer";
+import Types "./Types";
 
-//Note: All credit to the maintainers of repo: git@github.com:dfinity/examples.git 
-// see example -> # DIP721 NFT Container
 
-//({ caller = initializer })
-
-shared ({ caller = initializer }) actor class Dip721NFT(custodian: Principal, init : Types.Dip721NonFungibleToken) = Self {
+shared ({ caller = initializer }) actor class () {
   stable var transactionId: Types.TransactionId = 0;
-  stable var nfts = List.nil<Types.Nft>();
-  stable var custodians = List.make<Principal>(custodian);
-  stable var logo : Types.LogoResult = init.logo;
-  stable var name : Text = init.name;
-  stable var symbol : Text = init.symbol;
-  stable var maxLimit : Nat16 = init.maxLimit;
 
-  private let MAX_USERS = 1_000;
-  private let MAX_NOTES_PER_USER = 500;
-  private let MAX_DEVICES_PER_USER = 6;
+  private let MAX_CONTRACTS = 1_000;
+  private let MAX_CONTRACTS_PER_USER = 5;
   private let MAX_NOTE_CHARS = 500;
   private let MAX_DEVICE_ALIAS_LENGTH = 200;
   private let MAX_PUBLIC_KEY_LENGTH = 500;
   private let MAX_CYPHERTEXT_LENGTH = 40_000;
 
   private type PrincipalName = Text;
+  private stable var nextNoteId: Nat = 1;
+
+  type buffer = Buffer.Buffer<Contract>;
+  type bufferForPrincipals = Buffer.Buffer<Principal>;
+
+  private var bufOfContracts : buffer = Buffer.Buffer<Contract>(0);
+  private var bufOfBuyers : bufferForPrincipals = Buffer.Buffer<Principal>(0);
 
   public shared({ caller }) func whoami(): async Text {
      return Principal.toText(caller);
   };
 
-  public type Contract = {
+  public type SystemParams = {
+    contract_creation_fee: Tokens;
+    cost_per_token: Tokens;
+  };
+
+  public type ContractMarketStorage = {
+    accounts: [Account];
+    contracts: [Contract];
+    system_params: SystemParams;
+  };
+
+  private type Contract = {
     id: Nat;
     contract_description: Text;
     scope_of_work: Text;
     price_of_contract: Nat;
     terms_of_ownership: Text;
-    creator: Text;
+    creator: Principal;
     creator_rating: Nat;
     allowed_number_of_owners: Nat;
+    buyers : bufferForPrincipals;
   };
 
-  // public type Description = {
-  //   description: Text;
-  // }
-
-  // private func is_user_registered(principal: Principal): Bool {
-  //     Option.isSome(users.get(principal));
-  // };  
-
-public shared ({caller}) func create_contract(id: Nat, description: Text, scopeOfWork: Text, price: Nat, terms: Text, creator: Text, rating: Nat, maxOwners: Nat){
-    assert not Principal.isAnonymous(caller);
-    assert description.size() <= MAX_NOTE_CHARS;
-    assert scopeOfWork.size() <= MAX_NOTE_CHARS;
-    assert terms.size() <= MAX_NOTE_CHARS;
-  
-  // create the contract object with these params and call each method - eg. pass descrip into add_description
-};
-
-public shared({ caller }) func add_description(description: Text): async () {
-    assert not Principal.isAnonymous(caller);
-    // assert is_user_registered(caller);
-    assert description.size() <= MAX_NOTE_CHARS;
-
-      Debug.print("Adding note...");
-
-    let principalName = Principal.toText(caller);
-    //create contract and add description to it
-    //contract must be some hashmap or structure that allows to hold the data
-    //perhaps make a custom structure that can hold all the data in a unique way
-
-    };
+    // type Result<Ok, Err> = { #ok : Ok; #err : Err };
+    public type Result<T, E> = Result.Result<T, E>;
+    public type BuyStakeError = { #notFound; #soldOut; #stakeAvailable };
+    public type OperationStatus = { #complete; #failed };
+    public type Tokens = { amount_e8s : Nat }; 
+    public type Account = { owner : Principal; tokens : Tokens };
+    // public let oneToken = { amount_e8s = 10_000_000 };
+    // public let zeroToken = { amount_e8s = 0 }; 
+    public type TransferArgs = { to : Principal; amount : Tokens };
 
 //debug function to help assert code - like try-catch
-  private func expect<T>(opt: ?T, violation_msg: Text): T {
-    switch (opt) {
-        case (null) {
-            Debug.trap(violation_msg);
+  private func expect_operationstatus<T>(opt: ?T, violation_msg: Text): T {
+        switch (opt) {
+            case (null) {
+                Debug.trap(violation_msg);
+            };
+            case (?x) {
+                x
+            };
         };
-        case (?x) {
-             x
-        };
+  };
+
+  public shared({caller}) func creator_contract_submitted(userDescription: Text,
+                                                          userScopeOfWork: Text,
+                                                          priceOfContract: Nat,
+                                                          termsOfOwnership: Text,
+                                                          numberOfTokens: Nat): async Result.Result<Text, Text>{
+    
+    // assert not Principal.isAnonymous(caller); //add the II to this app asap like
+    assert userDescription.size() <= MAX_NOTE_CHARS;
+    assert userScopeOfWork.size() <= MAX_NOTE_CHARS;
+    assert termsOfOwnership.size() <= MAX_NOTE_CHARS;
+    assert numberOfTokens  > 0;
+
+    bufOfBuyers.add(caller);
+
+    //create contract
+    switch(?submit_contract(userDescription, userScopeOfWork, priceOfContract, termsOfOwnership, numberOfTokens, caller)){
+      case(null){
+        throw Error.reject("Contract submission not available at present")
+      };
+      case(value){
+        #ok("Your contract submission was successfull")
+      };
     };
   };
-  
+
+    public func submit_contract(userDescription: Text, 
+                                                  userScopeOfWork: Text, 
+                                                  priceOfContract: Nat, 
+                                                  termsOfOwnership: Text, 
+                                                  numberOfTokens: Nat,
+                                                  creator: Principal) : async Result.Result<Text, Text> {
+    
+    assert nextNoteId <= MAX_CONTRACTS;
+                
+        let principalName = Principal.toText(creator);
+            let new_contract : Contract = {
+                id = nextNoteId;
+                contract_description = userDescription;
+                scope_of_work = userScopeOfWork;
+                terms_of_ownership = termsOfOwnership;
+                creator = creator;
+                price_of_contract = priceOfContract;
+                creator_rating = 1;
+                allowed_number_of_owners = numberOfTokens;
+                buyers = bufOfBuyers;
+            };
+            nextNoteId += 1;
+            Debug.print("Adding note...");
+
+            switch(?bufOfContracts.add(new_contract)){
+              case(null){
+                throw Error.reject("Not Found")
+              };
+              case(value){
+                #ok("Contract added by Principal " # principalName)
+              };
+            };
+    };
+
+
+    // func deduct_contract_creation_fee(caller : Principal) : Types.Result<(), Text> {
+    //     switch (account_get(caller)) {
+    //     case null { #err "Caller needs an account to submit a proposal" };
+    //     case (?from_tokens) {
+    //              let threshold = system_params.proposal_submission_deposit.amount_e8s;
+    //              if (from_tokens.amount_e8s < threshold) {
+    //                  #err ("Caller's account must have at least " # debug_show(threshold) # " to submit a proposal")
+    //              } else {
+    //                  let from_amount : Nat = from_tokens.amount_e8s - threshold;
+    //                  account_put(caller, { amount_e8s = from_amount });
+    //                  #ok
+    //              };
+    //          };
+    //     };
+    // };
+
+    // func account_get(id : Principal) : ?Tokens = Trie.get(accounts, Types.account_key(id), Principal.equal);
+    // func account_put(id : Principal, tokens : Tokens) {
+    //     accounts := Trie.put(accounts, Types.account_key(id), Principal.equal, tokens).0;
+    // };
+    // func proposal_get(id : Nat) : ?Contract = Trie.get(proposals, Types.proposal_key(id), Nat.equal);
+    // func proposal_put(id : Nat, proposal : Contract) {
+    //     proposals := Trie.put(proposals, Types.proposal_key(id), Nat.equal, proposal).0;
+    // };
+
 
   // https://forum.dfinity.org/t/is-there-any-address-0-equivalent-at-dfinity-motoko/5445/3
   let null_address : Principal = Principal.fromText("aaaaa-aa");
 
-  public query func balanceOfDip721(user: Principal) : async Nat64 {
-    return Nat64.fromNat(
-      List.size(
-        List.filter(nfts, func(token: Types.Nft) : Bool { token.owner == user })
-      )
-    );
-  };
-
-  public query func ownerOfDip721(token_id: Types.TokenId) : async Types.OwnerResult {
-    let item = List.get(nfts, Nat64.toNat(token_id));
-    switch (item) {
-      case (null) {
-        return #Err(#InvalidTokenId);
-      };
-      case (?token) {
-        return #Ok(token.owner);
-      };
-    };
-  };
-
-  public shared({ caller }) func safeTransferFromDip721(from: Principal, to: Principal, token_id: Types.TokenId) : async Types.TxReceipt {  
-    if (to == null_address) {
-      return #Err(#ZeroAddress);
-    } else {
-      return transferFrom(from, to, token_id, caller);
-    };
-  };
-
-  public shared({ caller }) func transferFromDip721(from: Principal, to: Principal, token_id: Types.TokenId) : async Types.TxReceipt {
-    return transferFrom(from, to, token_id, caller);
-  };
-
-  func transferFrom(from: Principal, to: Principal, token_id: Types.TokenId, caller: Principal) : Types.TxReceipt {
-    let item = List.get(nfts, Nat64.toNat(token_id));
-    switch (item) {
-      case null {
-        return #Err(#InvalidTokenId);
-      };
-      case (?token) {
-        if (
-          caller != token.owner and
-          not List.some(custodians, func (custodian : Principal) : Bool { custodian == caller })
-        ) {
-          return #Err(#Unauthorized);
-        } else if (Principal.notEqual(from, token.owner)) {
-          return #Err(#Other);
-        } else {
-          nfts := List.map(nfts, func (item : Types.Nft) : Types.Nft {
-            if (item.id == token.id) {
-              let update : Types.Nft = {
-                owner = to;
-                id = item.id;
-                metadata = token.metadata;
-              };
-              return update;
-            } else {
-              return item;
-            };
-          });
-          transactionId += 1;
-          return #Ok(transactionId);   
-        };
-      };
-    };
-  };
-
-  public query func supportedInterfacesDip721() : async [Types.InterfaceId] {
-    return [#TransferNotification, #Burn, #Mint];
-  };
-
-  public query func logoDip721() : async Types.LogoResult {
-    return logo;
-  };
-
-  public query func nameDip721() : async Text {
-    return name;
-  };
-
-  public query func symbolDip721() : async Text {
-    return symbol;
-  };
-
-  public query func totalSupplyDip721() : async Nat64 {
-    return Nat64.fromNat(
-      List.size(nfts)
-    );
-  };
-
-  public query func getMetadataDip721(token_id: Types.TokenId) : async Types.MetadataResult {
-    let item = List.get(nfts, Nat64.toNat(token_id));
-    switch (item) {
-      case null {
-        return #Err(#InvalidTokenId);
-      };
-      case (?token) {
-        return #Ok(token.metadata);
-      }
-    };
-  };
-
-  public query func getMaxLimitDip721() : async Nat16 {
-    return maxLimit;
-  };
-
-  public func getMetadataForUserDip721(user: Principal) : async Types.ExtendedMetadataResult {
-    let item = List.find(nfts, func(token: Types.Nft) : Bool { token.owner == user });
-    switch (item) {
-      case null {
-        return #Err(#Other);
-      };
-      case (?token) {
-        return #Ok({
-          metadata_desc = token.metadata;
-          token_id = token.id;
-        });
-      }
-    };
-  };
-
-  public query func getTokenIdsForUserDip721(user: Principal) : async [Types.TokenId] {
-    let items = List.filter(nfts, func(token: Types.Nft) : Bool { token.owner == user });
-    let tokenIds = List.map(items, func (item : Types.Nft) : Types.TokenId { item.id });
-    return List.toArray(tokenIds);
-  };
-
-  public shared({ caller }) func mintDip721(to: Principal, metadata: Types.MetadataDesc) : async Types.MintReceipt {
-    if (not List.some(custodians, func (custodian : Principal) : Bool { custodian == caller })) {
-      return #Err(#Unauthorized);
-    };
-
-    let newId = Nat64.fromNat(List.size(nfts));
-    let nft : Types.Nft = {
-      owner = to;
-      id = newId;
-      metadata = metadata;
-    };
-
-    nfts := List.push(nft, nfts);
-
-    transactionId += 1;
-
-    return #Ok({
-      token_id = newId;
-      id = transactionId;
-    });
-  };
 }
