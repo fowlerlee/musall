@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { fileupload } from "../../../../declarations/fileupload";
-
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Stack from '@mui/material/Stack';
+import styled from 'styled-components';
 
 
 let file;
 
-const uploadChunk = async ({batch_name, chunk}) => fileupload.create_chunk({
+const uploadChunk = async ({ batch_name, chunk }) => fileupload.create_chunk({
   batch_name,
   content: [...new Uint8Array(await chunk.arrayBuffer())]
 })
 
 const upload = async () => {
-  
+
   if (!file) {
     alert('No file selected');
     return;
@@ -44,7 +38,7 @@ const upload = async () => {
 
   await fileupload.commit_batch({
     batch_name,
-    chunk_ids: chunkIds.map(({chunk_id}) => chunk_id),
+    chunk_ids: chunkIds.map(({ chunk_id }) => chunk_id),
     content_type: file.type
   })
 
@@ -58,7 +52,7 @@ const loadImage = (batch_name) => {
   if (!batch_name) {
     return;
   }
-  
+
   const newImage = document.createElement('img');
   newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`;
 
@@ -69,27 +63,46 @@ const loadImage = (batch_name) => {
   section?.appendChild(newImage);
 }
 
-const Input = styled('input')({
-    display: 'none',
-  });
+const Button = styled.button`
+  background-color: #F806CC;
+  color: white;
+  font-size: 1em;
+  margin: 2em;
+  padding: 0.6em .8em;
+  border: 2px solid palevioletred;
+  border-radius: 15px;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: palevioletred;
+  background: papayawhip;
+  border: none;
+  border-radius: 3px;
+`;
 
 export default function UploadButton(params) {
+  const [selectedFile, setSelectedFile] = useState("");
 
-    return (
-        <Stack direction="row" alignItems="center" spacing={2}>
-        <label htmlFor="contained-button-file">
-          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-          <Button variant="contained" component="span">
-            Upload
-          </Button>
-        </label>
-        <label htmlFor="icon-button-file">
-          <Input accept="image/*" id="icon-button-file" type="file" />
-          <IconButton color="primary" aria-label="upload picture" component="span">
-            <PhotoCamera />
-          </IconButton>
-        </label>
-      </Stack>
-      );
-    
+  return (
+    <div>
+      <form>
+        <Input
+          type="file"
+          value={selectedFile}
+          onChange={(event) => {
+            file = event.target.files?.[0];
+          }}
+          placeholder="Select image file"
+        />
+        <Button onClick={upload}>
+          Upload Image
+        </Button>
+      </form>
+    </div>
+
+  );
+
 }

@@ -1,0 +1,26 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type List = 
+ opt record {
+       principal;
+       List;
+     };
+type Contract = 
+ record {
+   allowed_number_of_owners: nat;
+   buyers: List;
+   contract_description: text;
+   creator: principal;
+   creator_rating: nat;
+   id: nat;
+   price_of_contract: nat;
+   scope_of_work: text;
+   terms_of_ownership: text;
+ };
+service : {
+  submit_contract: (Contract) -> (Result);
+  whoami: () -> (text);
+}
