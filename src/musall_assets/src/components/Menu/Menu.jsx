@@ -19,16 +19,16 @@ export function Menu({ isOpen, setIsOpen }) {
   let whitelist = [canisterId1, canisterId2, canisterId3];
   let host = 'https://mainnet.dfinity.network';
 
-  useEffect(() => {
-    async function verifyConnectionAndAgent() {
-      const connected = await window.ic.plug.isConnected();
-      if (!connected) window.ic.plug.requestConnect({ whitelist, host });
-      if (connected && !window.ic.plug.agent) {
-        window.ic.plug.createAgent({ whitelist, host });
-      }
-    }
-    verifyConnectionAndAgent();
-  }, []);
+  // useEffect(() => {
+    // async function verifyConnectionAndAgent() {
+    //   const connected = await window.ic.plug.isConnected();
+    //   if (!connected) window.ic.plug.requestConnect({ whitelist, host });
+    //   if (connected && !window.ic.plug.agent) {
+    //     window.ic.plug.createAgent({ whitelist, host });
+    //   }
+    // }
+    // verifyConnectionAndAgent();
+  // }, []);
 
   useEffect(() => {
     if (isMobile) setIsOpen(false);
