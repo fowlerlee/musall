@@ -21,6 +21,7 @@ type Contract =
    terms_of_ownership: text;
  };
 service : {
-  submit_contract: (Contract) -> (Result);
+  creator_contract_submitted: (text, text, nat, text, nat) -> (Result);
+  submit_contract: (text, text, nat, text, nat, principal) -> (Result);
   whoami: () -> (text);
 }
