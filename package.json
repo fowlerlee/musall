@@ -51,6 +51,8 @@
     "last 2 edge version"
   ],
   "dependencies": {
+    "@mui/icons-material": "^5.8.3",
+    "@mui/material": "^5.8.3",
     "@psychedelic/plug-connect": "^0.1.4",
     "@sharingexcess/designsystem": "^1.2.8",
     "react": "^18.1.0",
