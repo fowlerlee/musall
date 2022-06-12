@@ -1,0 +1,76 @@
+:root {
+  box-sizing: border-box;
+  --hot-pink: #f806cc;
+  --dark-pink: #a91079;
+  --purple: #570a57;
+  --dark-purple: #2e0249;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-family: 'Jost', sans-serif;
+  background: linear-gradient(
+    0deg,
+    rgba(87, 13, 86, 1) 0%,
+    rgba(46, 2, 73, 1) 45%
+  );
+  overflow: hidden;
+  height: 100vh;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 0 !important; /* Remove scrollbar space */
+  background: transparent !important; /* Optional: just make scrollbar invisible */
+}
+
+input,
+textarea {
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  border-bottom: 1px solid var(--se-grey-primary);
+  padding-bottom: 8px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 0;
+  outline: none;
+  transition: border 0.1s ease, padding-bottom 0.1s ease;
+}
+
+@mixin desktop {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin page {
+  // padding: 92px 16px 48px 16px;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  z-index: 1;
+  overflow-x: hidden;
+  opacity: 1;
+  animation: fade-in 0.32s ease forwards;
+  height: 100vh;
+  overflow-y: auto;
+
+  @include desktop {
+    padding: 84px 32px 48px 314px;
+    margin: 0 auto;
+    max-width: 1100px;
+  }
+}
