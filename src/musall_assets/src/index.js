@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { musall } from '../../declarations/musall';
 import ErrorBoundary from './components/error_boundary';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { EmojiProvider } from 'react-apple-emojis';
 import emojiData from './styles/emojis.json';
 import './styles/index.scss';
@@ -23,7 +23,7 @@ const app = createRoot(container);
 // }, []);
 
 app.render(
-  <BrowserRouter>
+  <HashRouter>
     <EmojiProvider data={emojiData}>
       <React.StrictMode>
         <ErrorBoundary>
@@ -31,5 +31,5 @@ app.render(
         </ErrorBoundary>
       </React.StrictMode>
     </EmojiProvider>
-  </BrowserRouter>
+  </HashRouter>
 );
