@@ -45,22 +45,36 @@ shared ({ caller = initializer }) actor class () {
     contract_creation_fee: Tokens;
     cost_per_token: Tokens;
   };
-
+ 
   public type ContractMarketStorage = {
     accounts: [Account];
     contracts: [Contract];
     system_params: SystemParams;
   };
 
+  private type ContractDescription = Text;
+  private type ScopeOfWork = Text;
+  private type PriceOfContract = Nat;
+  private type TermsOfOwnership = Text;
+  private type NumberOfTokens = Nat;
+
+  private type UserSubmission = {
+    contract_description: ContractDescription;
+    scope_of_work: ScopeOfWork;
+    price_of_contract: PriceOfContract;
+    terms_of_ownership: TermsOfOwnership;
+    number_of_tokens: NumberOfTokens;
+  };
+
   private type Contract = {
     id: Nat;
-    contract_description: Text;
-    scope_of_work: Text;
-    price_of_contract: Nat;
-    terms_of_ownership: Text;
+    contract_description: ContractDescription;
+    scope_of_work: ScopeOfWork;
+    price_of_contract: PriceOfContract;
+    terms_of_ownership: TermsOfOwnership;
     creator: Principal;
     creator_rating: Nat;
-    allowed_number_of_owners: Nat;
+    number_of_tokens: Nat;
     buyers : bufferForPrincipals;
   };
 
@@ -86,22 +100,18 @@ shared ({ caller = initializer }) actor class () {
         };
   };
 
-  public shared({caller}) func creator_contract_submitted(userDescription: Text,
-                                                          userScopeOfWork: Text,
-                                                          priceOfContract: Nat,
-                                                          termsOfOwnership: Text,
-                                                          numberOfTokens: Nat): async Result.Result<Text, Text>{
+  public shared({caller}) func creator_contract_submitted(us: UserSubmission): async Result.Result<Text, Text>{
     
     // assert not Principal.isAnonymous(caller); //add the II to this app asap like
-    assert userDescription.size() <= MAX_NOTE_CHARS;
-    assert userScopeOfWork.size() <= MAX_NOTE_CHARS;
-    assert termsOfOwnership.size() <= MAX_NOTE_CHARS;
-    assert numberOfTokens  > 0;
+    assert us.contract_description.size() <= MAX_NOTE_CHARS;
+    assert us.scope_of_work.size() <= MAX_NOTE_CHARS;
+    assert us.terms_of_ownership.size() <= MAX_NOTE_CHARS;
+    assert us.number_of_tokens  > 0;
 
     bufOfBuyers.add(caller);
 
     //create contract
-    switch(?submit_contract(userDescription, userScopeOfWork, priceOfContract, termsOfOwnership, numberOfTokens, caller)){
+    switch(?submit_contract(us, caller)){
       case(null){
         throw Error.reject("Contract submission not available at present")
       };
@@ -111,25 +121,20 @@ shared ({ caller = initializer }) actor class () {
     };
   };
 
-    public func submit_contract(userDescription: Text, 
-                                                  userScopeOfWork: Text, 
-                                                  priceOfContract: Nat, 
-                                                  termsOfOwnership: Text, 
-                                                  numberOfTokens: Nat,
-                                                  creator: Principal) : async Result.Result<Text, Text> {
+    private func submit_contract(us: UserSubmission, creator: Principal) : async Result.Result<Text, Text> {
     
     assert nextNoteId <= MAX_CONTRACTS;
                 
         let principalName = Principal.toText(creator);
             let new_contract : Contract = {
                 id = nextNoteId;
-                contract_description = userDescription;
-                scope_of_work = userScopeOfWork;
-                terms_of_ownership = termsOfOwnership;
+                contract_description = us.contract_description;
+                scope_of_work = us.scope_of_work;
+                terms_of_ownership = us.terms_of_ownership;
                 creator = creator;
-                price_of_contract = priceOfContract;
+                price_of_contract = us.price_of_contract;
                 creator_rating = 1;
-                allowed_number_of_owners = numberOfTokens;
+                number_of_tokens = us.number_of_tokens;
                 buyers = bufOfBuyers;
             };
             nextNoteId += 1;
@@ -137,13 +142,22 @@ shared ({ caller = initializer }) actor class () {
 
             switch(?bufOfContracts.add(new_contract)){
               case(null){
-                throw Error.reject("Not Found")
+                throw Error.reject("Contract not added")
               };
               case(value){
                 #ok("Contract added by Principal " # principalName)
               };
             };
     };
+
+
+    // public shared({ caller }) func get_all_contracts() : async [] {
+    //   // assert not Principal.isAnonymous(caller);
+
+    //   // return bufOfContracts;
+    //   return List.toArray(bufOfContracts);
+      
+    // };
 
 
     // func deduct_contract_creation_fee(caller : Principal) : Types.Result<(), Text> {
