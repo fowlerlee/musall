@@ -44,6 +44,7 @@ function App() {
               </>
             }
           />
+          <Route path='/albums/upload' element={<UploadButton />} />
           <Route
             path='/albums/:album_id'
             element={

@@ -11,7 +11,6 @@ import { albums } from '../../data';
 
 export function Albums() {
   const location = window.location.href;
-  console.log('[LOCATION FROM ALBUM]:=>', location);
 
   function FeatureAlbum({ feature }) {
     return (
@@ -33,6 +32,7 @@ export function Albums() {
     <Page id='Albums'>
       <FlexContainer direction='vertical'>
         <h1>Albums</h1>
+        <Link to='albums/upload'>Upload</Link>
         <FlexContainer fullWidth>
           <FeatureAlbum feature={albums[3]} />
         </FlexContainer>

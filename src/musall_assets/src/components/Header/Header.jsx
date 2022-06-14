@@ -11,24 +11,12 @@ import {
   Spacer,
 } from '@sharingexcess/designsystem';
 import { useParams } from 'react-router-dom';
-import { useAlbum } from '../../hooks/useAlbum';
 
 export function Header() {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(!isMobile);
-
   const { pathname } = useLocation();
-  console.log('[PATHNAME FROM HEADER]:=>', pathname);
-
-  const location = window.location.href;
-  console.log('[LOCATION FROM HEADER]:=>', location);
-
   const { album_id } = useParams();
-  console.log('[ALBUM ID FROM HEADER]:=>', album_id);
-
-  // const artist = artists[album_id];
-  const artist = useAlbum('artists', album_id);
-  console.log('[ARTIST FROM HEADER]:=>');
 
   const linkStyle = {
     margin: '1rem',
