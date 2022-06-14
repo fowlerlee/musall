@@ -89,6 +89,7 @@ export default function UploadButton(params) {
   return (
     <div>
       <form>
+      {/* <img src={require(`http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`)} /> */}
         <Input
           type="file"
           value={selectedFile}
