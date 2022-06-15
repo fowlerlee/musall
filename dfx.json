@@ -10,7 +10,8 @@
     },
     "musall_assets": {
       "dependencies": [
-        "musall"
+        "musall",
+        "fileupload"
       ],
       "frontend": {
         "entrypoint": "src/musall_assets/src/index.html"
