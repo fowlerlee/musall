@@ -9,7 +9,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
-  z-index: 1;
+  z-index: 99;
 
   @mixin mobile {
     @media (max-width: 599px) {

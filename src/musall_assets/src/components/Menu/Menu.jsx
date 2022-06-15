@@ -42,12 +42,26 @@ export function Menu({ isOpen, setIsOpen }) {
     return (
       <>
         <li onClick={() => setIsOpen(false)}>
-          <FlexContainer direction='horizontal' primaryAlign='start'>
-            <FaCircle />
-            <Link to={url}>
-              <p className='Menu-link'>{label}</p>
-            </Link>
-          </FlexContainer>
+          <div
+            direction='horizontal'
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
+            <Spacer width={8} />
+            <div>
+              <FaCircle />
+            </div>
+            <Spacer width={8} />
+            <div>
+              <Link to={url}>
+                <p>{label}</p>
+              </Link>
+            </div>
+            <Spacer width={8} />
+          </div>
         </li>
         <Spacer height={16} />
       </>
