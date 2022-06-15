@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { FaCircle } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
-import { Text, Spacer } from '@sharingexcess/designsystem';
-import { Emoji } from 'react-apple-emojis';
+import { Link, NavLink } from 'react-router-dom';
+import { FlexContainer, Text, Spacer } from '@sharingexcess/designsystem';
 import { useIsMobile } from '../../hooks';
 import PlugConnect from '@psychedelic/plug-connect';
 import canisterIds from '../../../../../.dfx/local/canister_ids.json';
@@ -20,14 +20,14 @@ export function Menu({ isOpen, setIsOpen }) {
   let host = 'https://mainnet.dfinity.network';
 
   // useEffect(() => {
-    // async function verifyConnectionAndAgent() {
-    //   const connected = await window.ic.plug.isConnected();
-    //   if (!connected) window.ic.plug.requestConnect({ whitelist, host });
-    //   if (connected && !window.ic.plug.agent) {
-    //     window.ic.plug.createAgent({ whitelist, host });
-    //   }
-    // }
-    // verifyConnectionAndAgent();
+  // async function verifyConnectionAndAgent() {
+  //   const connected = await window.ic.plug.isConnected();
+  //   if (!connected) window.ic.plug.requestConnect({ whitelist, host });
+  //   if (connected && !window.ic.plug.agent) {
+  //     window.ic.plug.createAgent({ whitelist, host });
+  //   }
+  // }
+  // verifyConnectionAndAgent();
   // }, []);
 
   useEffect(() => {
@@ -38,25 +38,30 @@ export function Menu({ isOpen, setIsOpen }) {
     setIsOpen(false);
   }
 
-  async function logout() {
-    if (window.confirm('Are you sure you want to log out?')) {
-      setIsOpen(false);
-      await signOut(auth);
-      navigate('/');
-      window.location.reload();
-    }
-  }
-
-  function MenuLink({ url, label, emoji, num }) {
+  function MenuLink({ url, label }) {
     return (
       <>
         <li onClick={() => setIsOpen(false)}>
-          <Link to={url}>
-            <Text type='subheader' classList={['Menu-link']}>
-              <Emoji name={emoji} width={num} />
-              {label}
-            </Text>
-          </Link>
+          <div
+            direction='horizontal'
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
+            <Spacer width={8} />
+            <div>
+              <FaCircle />
+            </div>
+            <Spacer width={8} />
+            <div>
+              <Link to={url}>
+                <p>{label}</p>
+              </Link>
+            </div>
+            <Spacer width={8} />
+          </div>
         </li>
         <Spacer height={16} />
       </>
@@ -78,50 +83,14 @@ export function Menu({ isOpen, setIsOpen }) {
               onConnectCallback={() => console.log('Some callback')}
             />
             <Spacer height={16} />
-            <MenuLink
-              emoji='question-mark'
-              num={20}
-              label='&nbsp;&nbsp;Albums'
-              url='/albums'
-            />
+            <MenuLink label='Albums' url='/albums' />
             <>
-              <MenuLink
-                emoji='plus'
-                num={20}
-                label='&nbsp;&nbsp;Vacation Homes'
-                url='/vacation-homes'
-              />
-              <MenuLink
-                emoji='envelope'
-                num={20}
-                label='&nbsp;&nbsp;Apartments'
-                url='/apartments'
-              />
-              <MenuLink
-                emoji='family'
-                num={20}
-                label='&nbsp;&nbsp;Concerts'
-                url='/concerts'
-              />
+              <MenuLink label='Vacation Homes' url='/vacation-homes' />
+              <MenuLink label='Apartments' url='/apartments' />
+              <MenuLink label='Concerts' url='/concerts' />
             </>
-            <MenuLink
-              emoji='information'
-              num={20}
-              label='&nbsp;&nbsp;Films'
-              url='/films'
-            />
-            <MenuLink
-              emoji='person-raising-hand'
-              num={20}
-              label='&nbsp;&nbsp;Research Projects'
-              url='/research-projects'
-            />
-            <li onClick={logout}>
-              <Text type='subheader' classList={['Menu-link']}>
-                <Emoji name='door' width={20} />
-                &nbsp;&nbsp;Logout
-              </Text>
-            </li>
+            <MenuLink label='Films' url='/films' />
+            <MenuLink label='Research Projects' url='/research-projects' />
           </ul>
         </div>
       </aside>

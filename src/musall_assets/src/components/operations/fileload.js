@@ -1,14 +1,14 @@
-import { fileupload } from "../../../../declarations/fileupload";
+import { fileupload } from '../../../../declarations/fileupload';
 
 let file;
 
-const uploadChunk = async ({batch_name, chunk}) => fileupload.create_chunk({
-  batch_name,
-  content: [...new Uint8Array(await chunk.arrayBuffer())]
-})
+const uploadChunk = async ({ batch_name, chunk }) =>
+  fileupload.create_chunk({
+    batch_name,
+    content: [...new Uint8Array(await chunk.arrayBuffer())],
+  });
 
 const upload = async () => {
-  
   if (!file) {
     alert('No file selected');
     return;
@@ -23,10 +23,12 @@ const upload = async () => {
   for (let start = 0; start < file.size; start += chunkSize) {
     const chunk = file.slice(start, start + chunkSize);
 
-    promises.push(uploadChunk({
-      batch_name,
-      chunk
-    }));
+    promises.push(
+      uploadChunk({
+        batch_name,
+        chunk,
+      })
+    );
   }
 
   const chunkIds = await Promise.all(promises);
@@ -35,21 +37,20 @@ const upload = async () => {
 
   await fileupload.commit_batch({
     batch_name,
-    chunk_ids: chunkIds.map(({chunk_id}) => chunk_id),
-    content_type: file.type
-  })
+    chunk_ids: chunkIds.map(({ chunk_id }) => chunk_id),
+    content_type: file.type,
+  });
 
   console.log('uploaded');
 
   loadImage(batch_name);
-}
+};
 
 const loadImage = (batch_name) => {
-
   if (!batch_name) {
     return;
   }
-  
+
   const newImage = document.createElement('img');
   newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`;
 
@@ -58,7 +59,7 @@ const loadImage = (batch_name) => {
 
   const section = document.querySelector('section:last-of-type');
   section?.appendChild(newImage);
-}
+};
 
 // const input = document.querySelector('input');
 // input?.addEventListener('change', ($event) => {
@@ -67,4 +68,3 @@ const loadImage = (batch_name) => {
 
 // const btnUpload = document.querySelector('button.upload');
 // btnUpload?.addEventListener('click', upload);
-

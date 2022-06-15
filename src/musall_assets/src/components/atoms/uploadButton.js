@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
-import { fileupload } from "../../../../declarations/fileupload";
+import React, { useEffect, useState, useRef } from 'react';
+import { fileupload } from '../../../../declarations/fileupload';
 import styled from 'styled-components';
-
 
 let file;
 
-const uploadChunk = async ({ batch_name, chunk }) => fileupload.create_chunk({
-  batch_name,
-  content: [...new Uint8Array(await chunk.arrayBuffer())]
-})
+const uploadChunk = async ({ batch_name, chunk }) =>
+  fileupload.create_chunk({
+    batch_name,
+    content: [...new Uint8Array(await chunk.arrayBuffer())],
+  });
 
 const upload = async () => {
-
   if (!file) {
     alert('No file selected');
     return;
@@ -26,10 +25,12 @@ const upload = async () => {
   for (let start = 0; start < file.size; start += chunkSize) {
     const chunk = file.slice(start, start + chunkSize);
 
-    promises.push(uploadChunk({
-      batch_name,
-      chunk
-    }));
+    promises.push(
+      uploadChunk({
+        batch_name,
+        chunk,
+      })
+    );
   }
 
   const chunkIds = await Promise.all(promises);
@@ -39,16 +40,15 @@ const upload = async () => {
   await fileupload.commit_batch({
     batch_name,
     chunk_ids: chunkIds.map(({ chunk_id }) => chunk_id),
-    content_type: file.type
-  })
+    content_type: file.type,
+  });
 
   console.log('uploaded');
 
   loadImage(batch_name);
-}
+};
 
 const loadImage = (batch_name) => {
-
   if (!batch_name) {
     return;
   }
@@ -61,14 +61,14 @@ const loadImage = (batch_name) => {
 
   const section = document.querySelector('section:last-of-type');
   section?.appendChild(newImage);
-}
+};
 
 const Button = styled.button`
-  background-color: #F806CC;
+  background-color: #f806cc;
   color: white;
   font-size: 1em;
   margin: 2em;
-  padding: 0.6em .8em;
+  padding: 0.6em 0.8em;
   border: 2px solid palevioletred;
   border-radius: 15px;
   font-weight: bold;
@@ -83,26 +83,22 @@ const Input = styled.input`
   border-radius: 3px;
 `;
 
-export default function UploadButton(params) {
-  const [selectedFile, setSelectedFile] = useState("");
+export default function UploadButton() {
+  const [selectedFile, setSelectedFile] = useState('');
 
   return (
     <div>
       <form>
         <Input
-          type="file"
+          type='file'
           value={selectedFile}
           onChange={(event) => {
             file = event.target.files?.[0];
           }}
-          placeholder="Select image file"
+          placeholder='Select image file'
         />
-        <Button onClick={upload}>
-          Upload Image
-        </Button>
+        <Button onClick={upload}>Upload Image</Button>
       </form>
     </div>
-
   );
-
 }

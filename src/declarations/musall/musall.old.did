@@ -1,0 +1,22 @@
+type UserSubmission = 
+ record {
+   contract_description: ContractDescription;
+   number_of_tokens: NumberOfTokens;
+   price_of_contract: PriceOfContract;
+   scope_of_work: ScopeOfWork;
+   terms_of_ownership: TermsOfOwnership;
+ };
+type TermsOfOwnership = text;
+type ScopeOfWork = text;
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type PriceOfContract = nat;
+type NumberOfTokens = nat;
+type ContractDescription = text;
+service : {
+  creator_contract_submitted: (UserSubmission) -> (Result);
+  whoami: () -> (text);
+}

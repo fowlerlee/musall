@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input`
@@ -20,9 +20,9 @@ class FileInput extends React.Component {
     return (
       <Input
         ref={this.inputRef}
-        placeholder="Hover to focus!"
+        placeholder='Hover to focus!'
         onMouseEnter={() => {
-          this.inputRef.current.focus()
+          this.inputRef.current.focus();
         }}
       />
     );

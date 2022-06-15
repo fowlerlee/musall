@@ -12,20 +12,10 @@ import { artists } from '../../data';
 import { useAlbum } from '../../hooks/useAlbum';
 
 export function Contract() {
-  const { pathname } = useLocation();
-  // console.log('[PATHNAME FROM CONTRACT]:=>', pathname);
-
-  const location = window.location.href;
-  // console.log('[LOCATION FROM CONTRACT]:=>', location);
-
   const { album_id } = useParams();
   const album_contract = useAlbum('artists');
-  console.log('[ARTIST FROM CONTRACT]:=>', album_contract);
-
-  // console.log('[ALBUM ID FROM CONTRACT]:=>', album_id);
 
   const artist = artists[album_id];
-  // console.log('[ALBUM OBJECT]:=>', artist);
 
   function ContractMenu() {}
   function ContractPreview() {
