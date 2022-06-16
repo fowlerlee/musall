@@ -16,8 +16,8 @@ import { Scope } from './components/Scope/Scope';
 import { Terms } from './components/Terms/Terms';
 import { AlbumContextProvider } from './context/Album';
 
-// import AuthService from '../../../';
-// import UserService from './services/UserService';
+import AuthService from './services/AuthService';
+import UserService from './services/UserService';
 
 function App() {
 

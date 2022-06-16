@@ -1,5 +1,5 @@
 import AuthService from "./AuthService";
-import account from '../ui/_mock/account';
+import account from '../_mock/account';
 
 /**
  * Service wrapper for the retrieved User.

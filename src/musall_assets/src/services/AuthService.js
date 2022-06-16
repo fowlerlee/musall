@@ -1,6 +1,6 @@
 import { AuthClient } from "@dfinity/auth-client";
 import { RestaurantRounded } from "@mui/icons-material";
-import { createActor } from "../../../declarations/nova_one";
+import { createActor } from "../../../declarations/musall";
 
 /**
  * Provides methods related to the user authentication

@@ -27,8 +27,8 @@ export interface UserSubmission {
 }
 export interface anon_class_22_1 {
   'creator_contract_submitted' : ActorMethod<[UserSubmission], Result>,
-  'getAllContracts' : ActorMethod<[], Array<Contract>>,
-  'getFirstContract' : ActorMethod<[], Contract>,
+  'get_all_contracts' : ActorMethod<[], Array<Contract>>,
+  'get_first_contract' : ActorMethod<[], Contract>,
   'whoami' : ActorMethod<[], string>,
 }
 export interface _SERVICE extends anon_class_22_1 {}

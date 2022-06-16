@@ -1,8 +1,8 @@
 type anon_class_22_1 = 
  service {
    creator_contract_submitted: (UserSubmission) -> (Result);
-   getAllContracts: () -> (vec Contract);
-   getFirstContract: () -> (Contract);
+   get_all_contracts: () -> (vec Contract);
+   get_first_contract: () -> (Contract);
    whoami: () -> (text);
  };
 type UserSubmission = 

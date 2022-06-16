@@ -24,8 +24,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const anon_class_22_1 = IDL.Service({
     'creator_contract_submitted' : IDL.Func([UserSubmission], [Result], []),
-    'getAllContracts' : IDL.Func([], [IDL.Vec(Contract)], []),
-    'getFirstContract' : IDL.Func([], [Contract], []),
+    'get_all_contracts' : IDL.Func([], [IDL.Vec(Contract)], []),
+    'get_first_contract' : IDL.Func([], [Contract], []),
     'whoami' : IDL.Func([], [IDL.Text], []),
   });
   return anon_class_22_1;
