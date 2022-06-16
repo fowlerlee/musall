@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  FlexContainer,
-  Text,
-  Button,
-  Spacer,
-} from '@sharingexcess/designsystem';
+import { FlexContainer } from '@sharingexcess/designsystem';
 import { Page } from '../Page/Page';
 import { albums } from '../../data';
 import UploadButton from '../atoms/uploadButton';
-import { fileupload } from '../../../../declarations/fileupload';
 import { musall } from '../../../../declarations/musall';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 export function Albums() {
   const [contract, setContract] = useState({
@@ -22,8 +22,6 @@ export function Albums() {
     image: '',
   });
   const [actor, setActor] = useState(null);
-  const [selectedFile, setSelectedFile] = useState('');
-  let file;
 
   useEffect(() => {
     import('../../../../declarations/fileupload').then((module) => {
@@ -67,25 +65,36 @@ export function Albums() {
     });
   }
 
-  function AlbumCover() {
-    // Buffer.from(str, 'base64')
-    // buf.toString('base64')
-    // return <img src={atob(value.data)} />;
-  }
-
-  function FeatureAlbum({ feature }) {
-    return (
-      <Link to={`/albums/${feature?.id}`}>
-        <img src={feature?.cover} alt='' className='Feature' />
-      </Link>
-    );
-  }
-
   function Album({ album }) {
     return (
       <Link to={`/albums/${album?.id}`}>
         <img src={album?.cover} alt='' className='Album' />
       </Link>
+    );
+  }
+
+  function ContractCard({ contract }) {
+    return (
+      <Card sx={{ maxWidth: 345 }} style={{ margin: '8px', width: '300px' }}>
+        <CardMedia
+          component='img'
+          height='140'
+          image={contract?.cover}
+          alt={contract?.owner}
+        />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='div'>
+            {contract?.owner}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {contract?.description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size='small'>Buy</Button>
+          <Button size='small'>Learn More</Button>
+        </CardActions>
+      </Card>
     );
   }
 
@@ -140,17 +149,11 @@ export function Albums() {
         </form>
         <h1>IMAGE FORM</h1>
         <UploadButton />
-        <FlexContainer fullWidth>
-          <FeatureAlbum feature={albums[3]} />
-        </FlexContainer>
-        <FlexContainer direction='horizontal' primaryAlign='end' fullWidth>
-          {albums.map((album) => (
-            <Album key={album.id} album={album} />
+        <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap' }}>
+          {albums.map((album, index) => (
+            <ContractCard key={index} contract={album} />
           ))}
-          <Album />
-          <Album />
-          <Album />
-        </FlexContainer>
+        </div>
       </FlexContainer>
     </Page>
   );

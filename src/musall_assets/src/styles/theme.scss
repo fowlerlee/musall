@@ -55,6 +55,12 @@ textarea {
   }
 }
 
+@mixin mobile {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 @mixin page {
   padding: 92px 16px 48px 16px;
   min-height: 100vh;
@@ -72,5 +78,9 @@ textarea {
     padding: 84px 32px 48px 314px;
     margin: 0 auto;
     max-width: 1100px;
+  }
+
+  @include mobile {
+    margin-top: 32px;
   }
 }
