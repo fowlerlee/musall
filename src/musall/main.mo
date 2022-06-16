@@ -152,11 +152,11 @@ shared ({ caller = initializer }) actor class () {
     };
 
 
-    public func getFirstContract() : async Contract {
+    public func get_first_contract() : async Contract {
         return bufOfContracts.get(0);
     };
 
-    public func getAllContracts(): async [Contract] {
+    public func get_all_contracts(): async [Contract] {
         //       let buff : Buffer.Buffer<T.Balance> = Buffer.Buffer(book.size());
         // for ((owner, user_balances) in book.entries()) {
             // let b : Buffer.Buffer<Contract> = Buffer.Buffer(bufOfContracts.size());
