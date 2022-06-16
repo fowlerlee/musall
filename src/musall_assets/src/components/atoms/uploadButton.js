@@ -86,17 +86,17 @@ export default function UploadButton() {
 
   return (
     <div>
-      <form>
-        <input
-          type='file'
-          name=''
-          id=''
-          onChange={(event) => {
-            setFile(event.target.files?.[0]);
-          }}
-        />
-        <button onClick={upload}>Upload Image</button>
-      </form>
+      {/* <form> */}
+      <input
+        type='file'
+        name=''
+        id=''
+        onChange={(event) => {
+          setFile(event.target.files?.[0]);
+        }}
+      />
+      <button onClick={upload}>Upload Image</button>
+      {/* </form> */}
       <NewImage batch_name={batchName} />
     </div>
   );

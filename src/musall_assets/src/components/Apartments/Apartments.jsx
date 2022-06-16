@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import { Page } from '../Page/Page';
-import { useFormContext, Controller } from 'react-hook-form';
 import UploadButton from '../atoms/uploadButton';
+import { musall } from '../../../../declarations/musall';
 
 export function Apartments() {
   const [contract, setContract] = useState({
@@ -24,50 +15,52 @@ export function Apartments() {
     image: '',
   });
   const methods = useForm();
+  const [actor, setActor] = useState(null);
 
-  function FormInput({ name, label }) {
-    const { control } = useFormContext();
+  useEffect(() => {
+    import('../../../../declarations/fileupload').then((module) => {
+      setActor(module.fileupload);
+    });
+  }, []);
 
-    return (
-      <Grid item xs={12} sm={6}>
-        {/* <Controller 
-              // as={TextField}
-              render={({ field }) => <TextField {...field} />}
-              name={name}
-              control={control}
-              label={label}
-              fullWidth
-              required={required}
-              /> */}
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(contract);
 
-        {/* <Controller
-                  as={TextField}
-                  name={name}
-                  control={control}
-                  label={label}
-                  fullWidth
-                  required
-                  error={isError}
-              /> */}
-
-        <Controller
-          render={({ field }) => (
-            <TextField
-              name={name}
-              label={label}
-              defaultValue=''
-              fullWidth
-              required
-              onChange={(e) => field.onChange(e.target.value)}
-              value={field.value}
-            />
-          )}
-          control={control}
-          name={name}
-        />
-      </Grid>
+    console.log('musall canister:', musall);
+    // creating the contract
+    let response = await musall.creator_contract_submitted(
+      'im',
+      BigInt(2),
+      BigInt(8),
+      'ok',
+      'no'
     );
+    window.alert(response.ok);
+    console.log('respone:', response);
+
+    // submitting the contract
+    let contractSubmission = await musall.submit_contract(
+      contract.description,
+      contract.scopeOfWork,
+      BigInt(contract.priceOfItem),
+      contract.termsOfOwnership,
+      BigInt(contract.numberOfTokens),
+      musall.whoami()
+    );
+    setContract(null);
+    console.log('Contract Submission:', contractSubmission);
+    return response;
+  };
+
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setContract({
+      ...contract,
+      [name]: value,
+    });
   }
+
   return (
     <Page>
       <FormProvider {...methods}>
@@ -75,16 +68,7 @@ export function Apartments() {
           <Typography variant='h6' gutterBottom>
             Shipping address
           </Typography>
-          <form
-            onSubmit={methods.handleSubmit((data) =>
-              test({
-                ...data,
-                shippingCountry,
-                shippingSubdivision,
-                shippingOption,
-              })
-            )}
-          >
+          <form onSubmit={handleSubmit}>
             <Grid container item lg={12} spacing={1}>
               <TextField
                 fullWidth
@@ -92,7 +76,9 @@ export function Apartments() {
                 minRows={5}
                 label='Description'
                 id='description'
+                name='description'
                 placeholder='Description'
+                onChange={handleInputChange}
               />
               <TextField
                 fullWidth
@@ -100,14 +86,18 @@ export function Apartments() {
                 minRows={5}
                 label='Scope of Work'
                 id='scope-of-work'
+                name='scopeOfWork'
                 placeholder='Scope of Work'
+                onChange={handleInputChange}
               />
               <TextField
                 fullWidth
                 type='number'
                 label='Price of Item'
                 id='price-of-item'
+                name='priceOfItem'
                 placeholder='Price of Item'
+                onChange={handleInputChange}
               />
               <TextField
                 fullWidth
@@ -115,27 +105,28 @@ export function Apartments() {
                 minRows={5}
                 label='Terms of Ownership'
                 id='terms-of-ownership'
+                name='termsOfOwnership'
                 placeholder='Terms of Ownership'
+                onChange={handleInputChange}
               />
               <TextField
                 fullWidth
                 type='number'
                 label='Number of Tokens'
                 id='number-of-tokens'
+                name='numberOfTokens'
                 placeholder='Number of Tokens'
+                onChange={handleInputChange}
               />
               <Typography variant='h6' gutterBottom>
                 Upload Album Art
               </Typography>
-              <input type='file' />
             </Grid>
+            <UploadButton />
             <br />
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button component={Link} variant='outlined' to='/cart'>
-                Back to Cart
-              </Button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button type='submit' variant='contained' color='primary'>
-                Next
+                SUBMIT CONTRACT
               </Button>
             </div>
           </form>
