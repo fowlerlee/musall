@@ -1,4 +1,5 @@
 // import Main from './components/Main';
+import React, { useEffect, useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header/Header';
 import { Albums } from './components/Albums/Albums';
@@ -15,18 +16,38 @@ import { Scope } from './components/Scope/Scope';
 import { Terms } from './components/Terms/Terms';
 import { AlbumContextProvider } from './context/Album';
 
-function App() {
-  // const verifyConnectionAndAgent = async () => {
-  // 	const connected = await window.ic.plug.isConnected();
-  // 	if (!connected) window.ic.plug.requestConnect({ whitelist, host });
-  // 	if (connected && !window.ic.plug.agent) {
-  // 		window.ic.plug.createAgent({ whitelist, host })
-  // 	}
-  // };
+// import AuthService from '../../../';
+// import UserService from './services/UserService';
 
-  // useEffect( async () => {
-  // verifyConnectionAndAgent();
-  // }, []);
+function App() {
+
+  useEffect( () => {
+    const initApp = async () => {
+      // Initialise and set the service accordingly
+      await AuthService.init(setNovaOne);
+      // If we are authenticated (i.e., the novaOne object is set), we retrieve the user
+    }
+    const refreshUser = async () => {
+        const user = await UserService.getRemoteUser(novaOne)
+        setUser(user);
+    }
+    // Only on mount
+    if (!isInit.current) {
+      isInit.current = true;
+      initApp();
+    }
+
+    // Only if authenticated
+    if (novaOne && !user) {
+      const localUser = UserService.getLocalUser();
+      setUser(localUser);
+    }
+
+    // If authenticated and using local user, and remote service available
+    if (novaOne && user && user.isLocal) {
+      refreshUser();
+    }
+  }, [novaOne, user]);
 
   return (
     <>

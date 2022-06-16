@@ -15,6 +15,7 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Text "mo:base/Blob";
 import Buffer "mo:base/Buffer";
+import Iter "mo:base/Iter";
 import Types "./Types";
 
 
@@ -31,8 +32,8 @@ shared ({ caller = initializer }) actor class () {
   private type PrincipalName = Text;
   private stable var nextNoteId: Nat = 1;
 
-  type buffer = Buffer.Buffer<Contract>;
-  type bufferForPrincipals = Buffer.Buffer<Principal>;
+  public type buffer = Buffer.Buffer<Contract>;
+  public type bufferForPrincipals = Buffer.Buffer<Principal>;
 
   private var bufOfContracts : buffer = Buffer.Buffer<Contract>(0);
   private var bufOfBuyers : bufferForPrincipals = Buffer.Buffer<Principal>(0);
@@ -52,13 +53,13 @@ shared ({ caller = initializer }) actor class () {
     system_params: SystemParams;
   };
 
-  private type ContractDescription = Text;
-  private type ScopeOfWork = Text;
-  private type PriceOfContract = Nat;
-  private type TermsOfOwnership = Text;
-  private type NumberOfTokens = Nat;
+  public type ContractDescription = Text;
+  public type ScopeOfWork = Text;
+  public type PriceOfContract = Nat;
+  public type TermsOfOwnership = Text;
+  public type NumberOfTokens = Nat;
 
-  private type UserSubmission = {
+  public type UserSubmission = {
     contract_description: ContractDescription;
     scope_of_work: ScopeOfWork;
     price_of_contract: PriceOfContract;
@@ -66,7 +67,7 @@ shared ({ caller = initializer }) actor class () {
     number_of_tokens: NumberOfTokens;
   };
 
-  private type Contract = {
+  public type Contract = {
     id: Nat;
     contract_description: ContractDescription;
     scope_of_work: ScopeOfWork;
@@ -75,7 +76,7 @@ shared ({ caller = initializer }) actor class () {
     creator: Principal;
     creator_rating: Nat;
     number_of_tokens: Nat;
-    buyers : bufferForPrincipals;
+    // buyers : bufferForPrincipals;
   };
 
     // type Result<Ok, Err> = { #ok : Ok; #err : Err };
@@ -151,13 +152,28 @@ shared ({ caller = initializer }) actor class () {
     };
 
 
-    // public shared({ caller }) func get_all_contracts() : async [] {
-    //   // assert not Principal.isAnonymous(caller);
+    public func get_first_contract() : async Contract {
+        return bufOfContracts.get(0);
+    };
 
-    //   // return bufOfContracts;
-    //   return List.toArray(bufOfContracts);
-      
-    // };
+    public func get_all_contracts(): async [Contract] {
+        //       let buff : Buffer.Buffer<T.Balance> = Buffer.Buffer(book.size());
+        // for ((owner, user_balances) in book.entries()) {
+            // let b : Buffer.Buffer<Contract> = Buffer.Buffer(bufOfContracts.size());
+        //     for ((token, amount) in user_balances.entries()) {
+        //         b.add({
+        //             owner;
+        //             token;
+        //             amount;
+        //         });
+        //     };
+        //     buff.append(b);
+        // };
+        // buff.toArray()
+      return bufOfContracts.toArray()
+    };
+
+
 
 
     // func deduct_contract_creation_fee(caller : Principal) : Types.Result<(), Text> {

@@ -1,6 +1,8 @@
-type anon_class_21_1 = 
+type anon_class_22_1 = 
  service {
    creator_contract_submitted: (UserSubmission) -> (Result);
+   getAllContracts: () -> (vec Contract);
+   getFirstContract: () -> (Contract);
    whoami: () -> (text);
  };
 type UserSubmission = 
@@ -21,4 +23,15 @@ type Result =
 type PriceOfContract = nat;
 type NumberOfTokens = nat;
 type ContractDescription = text;
-service : () -> anon_class_21_1
+type Contract = 
+ record {
+   contract_description: ContractDescription;
+   creator: principal;
+   creator_rating: nat;
+   id: nat;
+   number_of_tokens: nat;
+   price_of_contract: PriceOfContract;
+   scope_of_work: ScopeOfWork;
+   terms_of_ownership: TermsOfOwnership;
+ };
+service : () -> anon_class_22_1
