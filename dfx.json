@@ -1,5 +1,6 @@
 {
   "canisters": {
+
     "musall": {
       "main": "src/musall/main.mo",
       "type": "motoko"

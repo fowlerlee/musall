@@ -1,21 +1,29 @@
 export const idlFactory = ({ IDL }) => {
+  const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text });
   const ScopeOfWork = IDL.Text;
-  const NumberOfTokens = IDL.Nat;
   const PriceOfContract = IDL.Nat;
   const ContractDescription = IDL.Text;
   const TermsOfOwnership = IDL.Text;
-  const UserSubmission = IDL.Record({
+  const Contract = IDL.Record({
+    'id' : IDL.Nat,
     'scope_of_work' : ScopeOfWork,
-    'number_of_tokens' : NumberOfTokens,
+    'creator' : IDL.Principal,
+    'number_of_tokens' : IDL.Nat,
     'price_of_contract' : PriceOfContract,
+    'creator_rating' : IDL.Nat,
     'contract_description' : ContractDescription,
     'terms_of_ownership' : TermsOfOwnership,
   });
-  const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text });
-  const anon_class_21_1 = IDL.Service({
-    'creator_contract_submitted' : IDL.Func([UserSubmission], [Result], []),
+  const anon_class_22_1 = IDL.Service({
+    'creator_contract_submitted' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Nat, IDL.Text, IDL.Nat],
+        [Result],
+        [],
+      ),
+    'get_all_contracts' : IDL.Func([], [IDL.Vec(Contract)], []),
+    'get_first_contract' : IDL.Func([], [Contract], []),
     'whoami' : IDL.Func([], [IDL.Text], []),
   });
-  return anon_class_21_1;
+  return anon_class_22_1;
 };
 export const init = ({ IDL }) => { return []; };
