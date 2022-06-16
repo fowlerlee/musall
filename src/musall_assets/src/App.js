@@ -21,33 +21,33 @@ import { AlbumContextProvider } from './context/Album';
 
 function App() {
 
-  useEffect( () => {
-    const initApp = async () => {
-      // Initialise and set the service accordingly
-      await AuthService.init(setNovaOne);
-      // If we are authenticated (i.e., the novaOne object is set), we retrieve the user
-    }
-    const refreshUser = async () => {
-        const user = await UserService.getRemoteUser(novaOne)
-        setUser(user);
-    }
-    // Only on mount
-    if (!isInit.current) {
-      isInit.current = true;
-      initApp();
-    }
+  // useEffect( () => {
+  //   const initApp = async () => {
+  //     // Initialise and set the service accordingly
+  //     await AuthService.init(setNovaOne);
+  //     // If we are authenticated (i.e., the novaOne object is set), we retrieve the user
+  //   }
+  //   const refreshUser = async () => {
+  //       const user = await UserService.getRemoteUser(novaOne)
+  //       setUser(user);
+  //   }
+  //   // Only on mount
+  //   if (!isInit.current) {
+  //     isInit.current = true;
+  //     initApp();
+  //   }
 
-    // Only if authenticated
-    if (novaOne && !user) {
-      const localUser = UserService.getLocalUser();
-      setUser(localUser);
-    }
+  //   // Only if authenticated
+  //   if (novaOne && !user) {
+  //     const localUser = UserService.getLocalUser();
+  //     setUser(localUser);
+  //   }
 
-    // If authenticated and using local user, and remote service available
-    if (novaOne && user && user.isLocal) {
-      refreshUser();
-    }
-  }, [novaOne, user]);
+  //   // If authenticated and using local user, and remote service available
+  //   if (novaOne && user && user.isLocal) {
+  //     refreshUser();
+  //   }
+  // }, [novaOne, user]);
 
   return (
     <>
