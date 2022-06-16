@@ -101,18 +101,30 @@ shared ({ caller = initializer }) actor class () {
         };
   };
 
-  public shared({caller}) func creator_contract_submitted(us: UserSubmission): async Result.Result<Text, Text>{
+  public shared({caller}) func creator_contract_submitted(userDescription: Text,
+                                                          userScopeOfWork: Text,
+                                                          priceOfContract: Nat,
+                                                          termsOfOwnership: Text,
+                                                          numberOfTokens: Nat): async Result.Result<Text, Text>{
     
     // assert not Principal.isAnonymous(caller); //add the II to this app asap like
-    assert us.contract_description.size() <= MAX_NOTE_CHARS;
-    assert us.scope_of_work.size() <= MAX_NOTE_CHARS;
-    assert us.terms_of_ownership.size() <= MAX_NOTE_CHARS;
-    assert us.number_of_tokens  > 0;
+    assert userDescription.size() <= MAX_NOTE_CHARS;
+    assert userScopeOfWork.size() <= MAX_NOTE_CHARS;
+    assert termsOfOwnership.size() <= MAX_NOTE_CHARS;
+    assert numberOfTokens  > 0;
+
+            let user_submit : UserSubmission = {
+                contract_description = userDescription;
+                scope_of_work = userScopeOfWork;
+                price_of_contract = priceOfContract;
+                terms_of_ownership = termsOfOwnership;
+                number_of_tokens = numberOfTokens;
+            };
 
     bufOfBuyers.add(caller);
 
     //create contract
-    switch(?submit_contract(us, caller)){
+    switch(?submit_contract(user_submit, caller)){
       case(null){
         throw Error.reject("Contract submission not available at present")
       };
@@ -172,7 +184,6 @@ shared ({ caller = initializer }) actor class () {
         // buff.toArray()
       return bufOfContracts.toArray()
     };
-
 
 
 
