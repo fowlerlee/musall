@@ -81,6 +81,7 @@ textarea {
   }
 
   @include mobile {
-    margin-top: 32px;
+    margin-top: 64px;
+    margin-bottom: 12px;
   }
 }

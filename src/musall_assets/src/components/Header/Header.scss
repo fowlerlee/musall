@@ -3,13 +3,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 128px;
+  height: 64px;
   width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
   z-index: 99;
+  background-color: var(--dark-purple);
 
   @mixin mobile {
     @media (max-width: 599px) {
