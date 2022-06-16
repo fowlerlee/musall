@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { fileupload } from '../../../../declarations/fileupload';
 
 export default function UploadButton() {
@@ -57,8 +57,8 @@ export default function UploadButton() {
     }
 
     const newImage = document.createElement('img');
-    newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`;
-    // newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`;
+    // newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`;
+    newImage.src = `http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`;
 
     const img = document.querySelector('section:last-of-type img');
     img?.parentElement.removeChild(img);
@@ -76,8 +76,8 @@ export default function UploadButton() {
       <div>
         <h1>⬇️ UPLOADED FILE ⬇️</h1>
         <img
-          src={`http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`}
-          // src={`http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`}
+          // src={`http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`}
+          src={`http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`}
           alt='CHUNKS OF FILE'
         />
       </div>
@@ -86,17 +86,15 @@ export default function UploadButton() {
 
   return (
     <div>
-      <form>
-        <input
-          type='file'
-          name=''
-          id=''
-          onChange={(event) => {
-            setFile(event.target.files?.[0]);
-          }}
-        />
-        <button onClick={upload}>Upload Image</button>
-      </form>
+      <input
+        type='file'
+        name=''
+        id=''
+        onChange={(event) => {
+          setFile(event.target.files?.[0]);
+        }}
+      />
+      <button onClick={upload}>Upload Image</button>
       <NewImage batch_name={batchName} />
     </div>
   );

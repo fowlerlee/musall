@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { FaCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Text, Spacer, FlexContainer } from '@sharingexcess/designsystem';
 import { useIsMobile } from '../../hooks';
@@ -37,11 +38,26 @@ export function ContractMenu({ isOpen, setIsOpen, album_id }) {
     return (
       <>
         <li onClick={() => setIsOpen(false)}>
-          <Link to={url}>
-            <Text type='subheader' classList={['Menu-link']}>
-              {label}
-            </Text>
-          </Link>
+          <div
+            direction='horizontal'
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
+            <Spacer width={8} />
+            <div>
+              <FaCircle />
+            </div>
+            <Spacer width={8} />
+            <div>
+              <Link to={url}>
+                <p>{label}</p>
+              </Link>
+            </div>
+            <Spacer width={8} />
+          </div>
         </li>
         <Spacer height={16} />
       </>
@@ -58,11 +74,11 @@ export function ContractMenu({ isOpen, setIsOpen, album_id }) {
   return (
     <>
       {isOpen && isMobile ? (
-        <div id='MenuBackground' onClick={closeMenu} />
+        <div id='Contract-MenuBackground' onClick={closeMenu} />
       ) : null}
-      <aside id='Menu' className={isOpen ? 'open' : 'closed'}>
-        <AlbumCover />
-        <div id='MenuContent'>
+      <aside id='Contract-Menu' className={isOpen ? 'open' : 'closed'}>
+        {/* <AlbumCover /> */}
+        <div id='Contract-MenuContent'>
           <ul>
             <PlugConnect
               dark
@@ -73,27 +89,24 @@ export function ContractMenu({ isOpen, setIsOpen, album_id }) {
             />
             <Spacer height={16} />
             <MenuLink
-              label='&nbsp;&nbsp;Description'
+              label='Description'
               url={`/albums/${album_id}/description`}
             />
             <>
               <MenuLink
-                label='&nbsp;&nbsp;Scope Of Work'
+                label='Scope Of Work'
                 url={`/albums/${album_id}/scope-of-work`}
               />
               <MenuLink
-                label='&nbsp;&nbsp;Price Of Item'
+                label='Price Of Item'
                 url={`/albums/${album_id}/price-of-item`}
               />
               <MenuLink
-                label='&nbsp;&nbsp;Terms Of Ownership'
+                label='Terms Of Ownership'
                 url={`/albums/${album_id}/terms-of-ownership`}
               />
             </>
-            <MenuLink
-              label='&nbsp;&nbsp;Owner'
-              url={`/albums/${album_id}/owner`}
-            />
+            <MenuLink label='Owner' url={`/albums/${album_id}/owner`} />
           </ul>
         </div>
       </aside>

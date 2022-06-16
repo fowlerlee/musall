@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { FaCircle } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router';
-import { Link, NavLink } from 'react-router-dom';
-import { FlexContainer, Text, Spacer } from '@sharingexcess/designsystem';
+import { Link } from 'react-router-dom';
+import { Spacer } from '@sharingexcess/designsystem';
 import { useIsMobile } from '../../hooks';
 import PlugConnect from '@psychedelic/plug-connect';
 import canisterIds from '../../../../../.dfx/local/canister_ids.json';
@@ -83,14 +83,9 @@ export function Menu({ isOpen, setIsOpen }) {
               onConnectCallback={() => console.log('Some callback')}
             />
             <Spacer height={16} />
-            <MenuLink label='Albums' url='/albums' />
-            <>
-              <MenuLink label='Vacation Homes' url='/vacation-homes' />
-              <MenuLink label='Apartments' url='/apartments' />
-              <MenuLink label='Concerts' url='/concerts' />
-            </>
-            <MenuLink label='Films' url='/films' />
-            <MenuLink label='Research Projects' url='/research-projects' />
+            <MenuLink label='Home' url='/' />
+            <MenuLink label='Album Contracts' url='/albums' />
+            <MenuLink label='Create Contract' url='/apartments' />
           </ul>
         </div>
       </aside>

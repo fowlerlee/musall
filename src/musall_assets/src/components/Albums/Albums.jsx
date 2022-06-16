@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  FlexContainer,
-  Text,
-  Button,
-  Spacer,
-} from '@sharingexcess/designsystem';
+import { FlexContainer } from '@sharingexcess/designsystem';
 import { Page } from '../Page/Page';
 import { albums } from '../../data';
-import UploadButton from '../atoms/uploadButton';
-import { fileupload } from '../../../../declarations/fileupload';
-import { musall } from '../../../../declarations/musall';
+import { Link } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 export function Albums() {
-  const [contract, setContract] = useState({
-    description: '',
-    scopeOfWork: '',
-    priceOfItem: '',
-    termsOfOwnership: '',
-    numberOfTokens: '',
-    image: '',
-  });
   const [actor, setActor] = useState(null);
-  const [selectedFile, setSelectedFile] = useState('');
-  let file;
 
   useEffect(() => {
     import('../../../../declarations/fileupload').then((module) => {
@@ -31,126 +19,60 @@ export function Albums() {
     });
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('musall canister:', musall);
-    // creating the contract
-    let response = await musall.creator_contract_submitted(
-      contract.description,
-      contract.scopeOfWork,
-      BigInt(contract.priceOfItem),
-      contract.termsOfOwnership,
-      BigInt(contract.numberOfTokens)
-    );
-    window.alert(response.ok);
-    console.log('respone:', response);
-
-    // submitting the contract
-    let contractSubmission = await musall.submit_contract(
-      contract.description,
-      contract.scopeOfWork,
-      BigInt(contract.priceOfItem),
-      contract.termsOfOwnership,
-      BigInt(contract.numberOfTokens),
-      musall.whoami()
-    );
-    setContract(null);
-    console.log('Contract Submission:', contractSubmission);
-    return response;
-  };
-
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setContract({
-      ...contract,
-      [name]: value,
-    });
-  }
-
-  function AlbumCover() {
-    // Buffer.from(str, 'base64')
-    // buf.toString('base64')
-    // return <img src={atob(value.data)} />;
-  }
-
-  function FeatureAlbum({ feature }) {
+  function ContractCard({ album }) {
     return (
-      <Link to={`/albums/${feature?.id}`}>
-        <img src={feature?.cover} alt='' className='Feature' />
-      </Link>
-    );
-  }
-
-  function Album({ album }) {
-    return (
-      <Link to={`/albums/${album?.id}`}>
-        <img src={album?.cover} alt='' className='Album' />
-      </Link>
+      <Card
+        sx={{ maxWidth: 345, margin: 1, borderRadius: 2, width: 300 }}
+        className='Contract-Card'
+      >
+        <CardMedia
+          component='img'
+          alt={album?.description}
+          height='140'
+          image={album?.cover}
+        />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='div'>
+            {album?.id}
+          </Typography>
+          <Typography variant='body2' color='secondary'>
+            Scope of Work: {album?.scope_of_work}
+            Terms of Ownership: {album?.terms_of_ownership}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size='small' variant='contained'>
+            buy
+          </Button>
+          <Button size='small'>
+            <Link
+              style={{ textDecoration: 'none', color: 'var(--purple)' }}
+              to={`/albums/${album?.id}`}
+            >
+              Learn More
+            </Link>
+          </Button>
+        </CardActions>
+      </Card>
     );
   }
 
   return (
     <Page id='Albums'>
-      <FlexContainer direction='vertical'>
+      <FlexContainer direction='vertical' primaryAlign='center'>
         <h1>Albums</h1>
-        <form action=''>
-          <label htmlFor='description'>Description</label>
-          <textarea
-            rows={10}
-            type='text'
-            name='description'
-            onChange={handleInputChange}
-          />
-          <label htmlFor='scope'>Scope of Work</label>
-          <textarea
-            rows={10}
-            type='text'
-            name='scope'
-            onChange={handleInputChange}
-          />
-          <label htmlFor='owner'>Owner</label>
-          <textarea
-            rows={1}
-            type='text'
-            name='owner'
-            onChange={handleInputChange}
-          />
-          <label htmlFor='price'>Price</label>
-          <textarea
-            rows={1}
-            type='text'
-            name='price'
-            onChange={handleInputChange}
-          />
-          <label htmlFor='terms'>Terms</label>
-          <textarea
-            rows={10}
-            type='text'
-            name='terms'
-            onChange={handleInputChange}
-          />
-          <label htmlFor='numberOfTokens'>Number of Tokens</label>
-          <textarea
-            rows={1}
-            type='text'
-            name='numberOfTokens'
-            onChange={handleInputChange}
-          />
-          <button onClick={handleSubmit}>SUBMIT CONTRACT</button>
-        </form>
-        <h1>IMAGE FORM</h1>
-        <UploadButton />
-        <FlexContainer fullWidth>
-          <FeatureAlbum feature={albums[3]} />
-        </FlexContainer>
-        <FlexContainer direction='horizontal' primaryAlign='end' fullWidth>
-          {albums.map((album) => (
-            <Album key={album.id} album={album} />
+        <div
+          id='Contracts-Container'
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}
+        >
+          {albums.map((album, index) => (
+            <ContractCard key={index} album={album} />
           ))}
-          <Album />
-          <Album />
-          <Album />
-        </FlexContainer>
+        </div>
       </FlexContainer>
     </Page>
   );

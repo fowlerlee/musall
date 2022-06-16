@@ -1,27 +1,14 @@
 import React from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { Page } from '../Page/Page';
-import {
-  FlexContainer,
-  Text,
-  Button,
-  Spacer,
-} from '@sharingexcess/designsystem';
+import { FlexContainer, Text } from '@sharingexcess/designsystem';
 import { artists } from '../../data';
 import { useAlbum } from '../../hooks/useAlbum';
 
 export function Contract() {
   const { album_id } = useParams();
   const album_contract = useAlbum('artists');
-
   const artist = artists[album_id];
-
-  function ContractMenu() {}
-  function ContractPreview() {
-    return <img src='logo.png' alt='' id='Feature' />;
-  }
-
   function Description({ contract }) {
     return (
       <FlexContainer direction='vertical'>
@@ -64,7 +51,7 @@ export function Contract() {
   }
 
   return (
-    <Page id='Contract'>
+    <Page>
       <FlexContainer direction='vertical'>
         <h1>{album_id}</h1>
         <h1>Contract</h1>
