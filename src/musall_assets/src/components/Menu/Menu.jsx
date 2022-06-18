@@ -85,7 +85,7 @@ export function Menu({ isOpen, setIsOpen }) {
             <Spacer height={16} />
             <MenuLink label='Home' url='/' />
             <MenuLink label='Album Contracts' url='/albums' />
-            <MenuLink label='Create Contract' url='/apartments' />
+            <MenuLink label='Create Contract' url='/create' />
           </ul>
         </div>
       </aside>

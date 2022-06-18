@@ -1,161 +1,151 @@
 import React from 'react';
 import { Page } from '../Page/Page';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Spacer } from '@sharingexcess/designsystem';
+
+const card = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
+        <b>Feature</b>
+      </Typography>
+      <Typography variant='body2'>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas
+        cupiditate non doloribus debitis laudantium nemo dolores dolor ullam
+        omnis expedita in veniam, consectetur voluptas doloremque corrupti ipsam
+        quisquam voluptates est!
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
 
 export function Hero() {
   return (
-    <div id='Hero'>
-      <div className='blob'>
-        <svg
-          viewBox='0 0 800 500'
-          preserveAspectRatio='none'
-          xmlns='http://www.w3.org/2000/svg'
-          xmlnsXlink='http://www.w3.org/1999/xlink'
-          width='100%'
-          id='blobSvg'
-        >
-          <g transform='translate(38, -245)'>
-            <defs>
-              <linearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-                <stop
-                  offset='0%'
-                  style={{ stopColor: 'rgb(248, 6, 204)' }}
-                ></stop>
-                <stop
-                  offset='100%'
-                  style={{ stopColor: 'rgb(46, 2, 73)' }}
-                ></stop>
-              </linearGradient>
-            </defs>
-            <path
-              // className='blob'
-              // d='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-
-              fill='url(#gradient)'
-            >
-              <animate
-                attributeName='d'
-                dur='10000ms'
-                repeatCount='indefinite'
-                values='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z;
-              
-              M437.5,312.5Q445,375,389.5,404Q334,433,276.5,449.5Q219,466,169.5,433Q120,400,74,357.5Q28,315,54,257.5Q80,200,94,143Q108,86,165.5,73Q223,60,277.5,65Q332,70,380,103Q428,136,429,193Q430,250,437.5,312.5Z;
-              
-              M429.5,307Q428,364,376.5,388.5Q325,413,272,439.5Q219,466,156.5,448Q94,430,83.5,366Q73,302,56,245Q39,188,64.5,126.5Q90,65,154.5,50.5Q219,36,275.5,53Q332,70,369,109.5Q406,149,418.5,199.5Q431,250,429.5,307Z;
-              
-              M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              ></animate>
-            </path>
-          </g>
-          <g transform='translate(365, -37)'>
-            <defs>
-              <linearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-                <stop
-                  offset='0%'
-                  style={{ stopColor: 'rgb(248, 6, 204)' }}
-                ></stop>
-                <stop
-                  offset='100%'
-                  style={{ stopColor: 'rgb(46, 2, 73)' }}
-                ></stop>
-              </linearGradient>
-            </defs>
-            <path
-              // className='blob'
-              // d='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              fill='url(#gradient)'
-            >
-              <animate
-                attributeName='d'
-                dur='10000ms'
-                repeatCount='indefinite'
-                values='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z;
-              
-              M437.5,312.5Q445,375,389.5,404Q334,433,276.5,449.5Q219,466,169.5,433Q120,400,74,357.5Q28,315,54,257.5Q80,200,94,143Q108,86,165.5,73Q223,60,277.5,65Q332,70,380,103Q428,136,429,193Q430,250,437.5,312.5Z;
-              
-              M429.5,307Q428,364,376.5,388.5Q325,413,272,439.5Q219,466,156.5,448Q94,430,83.5,366Q73,302,56,245Q39,188,64.5,126.5Q90,65,154.5,50.5Q219,36,275.5,53Q332,70,369,109.5Q406,149,418.5,199.5Q431,250,429.5,307Z;
-              
-              M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              ></animate>
-            </path>
-          </g>
-        </svg>
-      </div>
-      <div className='blob'>
-        <svg
-          viewBox='0 0 800 500'
-          preserveAspectRatio='none'
-          xmlns='http://www.w3.org/2000/svg'
-          xmlnsXlink='http://www.w3.org/1999/xlink'
-          width='100%'
-          id='blobSvg'
-        >
-          <g transform='translate(38, -245)'>
-            <defs>
-              <linearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-                <stop
-                  offset='0%'
-                  style={{ stopColor: 'rgb(248, 6, 204)' }}
-                ></stop>
-                <stop
-                  offset='100%'
-                  style={{ stopColor: 'rgb(46, 2, 73)' }}
-                ></stop>
-              </linearGradient>
-            </defs>
-            <path
-              // className='blob'
-              // d='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-
-              fill='url(#gradient)'
-            >
-              <animate
-                attributeName='d'
-                dur='10000ms'
-                repeatCount='indefinite'
-                values='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z;
-              
-              M437.5,312.5Q445,375,389.5,404Q334,433,276.5,449.5Q219,466,169.5,433Q120,400,74,357.5Q28,315,54,257.5Q80,200,94,143Q108,86,165.5,73Q223,60,277.5,65Q332,70,380,103Q428,136,429,193Q430,250,437.5,312.5Z;
-              
-              M429.5,307Q428,364,376.5,388.5Q325,413,272,439.5Q219,466,156.5,448Q94,430,83.5,366Q73,302,56,245Q39,188,64.5,126.5Q90,65,154.5,50.5Q219,36,275.5,53Q332,70,369,109.5Q406,149,418.5,199.5Q431,250,429.5,307Z;
-              
-              M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              ></animate>
-            </path>
-          </g>
-          <g transform='translate(365, -37)'>
-            <defs>
-              <linearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-                <stop
-                  offset='0%'
-                  style={{ stopColor: 'rgb(248, 6, 204)' }}
-                ></stop>
-                <stop
-                  offset='100%'
-                  style={{ stopColor: 'rgb(46, 2, 73)' }}
-                ></stop>
-              </linearGradient>
-            </defs>
-            <path
-              // className='blob'
-              // d='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              fill='url(#gradient)'
-            >
-              <animate
-                attributeName='d'
-                dur='10000ms'
-                repeatCount='indefinite'
-                values='M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z;
-              
-              M437.5,312.5Q445,375,389.5,404Q334,433,276.5,449.5Q219,466,169.5,433Q120,400,74,357.5Q28,315,54,257.5Q80,200,94,143Q108,86,165.5,73Q223,60,277.5,65Q332,70,380,103Q428,136,429,193Q430,250,437.5,312.5Z;
-              
-              M429.5,307Q428,364,376.5,388.5Q325,413,272,439.5Q219,466,156.5,448Q94,430,83.5,366Q73,302,56,245Q39,188,64.5,126.5Q90,65,154.5,50.5Q219,36,275.5,53Q332,70,369,109.5Q406,149,418.5,199.5Q431,250,429.5,307Z;
-              
-              M453,312Q443,374,394.5,417Q346,460,285,444.5Q224,429,162.5,425.5Q101,422,59,370Q17,318,17.5,250Q18,182,73.5,146.5Q129,111,174.5,76.5Q220,42,278.5,51.5Q337,61,372,105Q407,149,435,199.5Q463,250,453,312Z'
-              ></animate>
-            </path>
-          </g>
-        </svg>
-      </div>
+    <div id='Landing'>
+      <section id='Hero'>
+        <h1 style={{ fontSize: '6rem' }}>Musall is here!</h1>
+        <div id='Buttons-Container'>
+          <Button variant='contained' color='secondary' size='large'>
+            try alpha
+          </Button>
+          <Spacer width={32} />
+          <Button variant='contained' color='secondary' size='large'>
+            read more
+          </Button>
+        </div>
+      </section>
+      <section id='Supernova'>
+        <h2 style={{ textAlign: 'center' }}>Powered by DFINITY</h2>
+        <img src='logo.png' alt='Internet Computer Logo' id='logo' />
+      </section>
+      <section id='Intro'>
+        <h1>Introducing Musall</h1>
+        <p>
+          Molestiae placeat est exercitationem accusantium quasi adipisci, earum
+          fugiat vitae alias consequatur repellat at, reprehenderit velit
+          suscipit, vel dolore? Quae illum, eaque mollitia ea dignissimos in
+          vitae voluptatem nihil quaerat?
+        </p>
+      </section>
+      <section id='Cards-Container-1'>
+        <p>
+          Accusantium molestias libero repellendus magni ipsa suscipit hic
+          quaerat vero sequi beatae molestiae, sit cumque saepe laboriosam
+          deleniti sapiente quidem numquam aut eum assumenda magnam ea fuga rem!
+          Dolorem, eveniet.
+        </p>
+        <Box sx={{ minWidth: 275 }}>
+          <Card variant='outlined'>{card}</Card>
+        </Box>
+        <br />
+        <Box sx={{ minWidth: 275 }}>
+          <Card variant='outlined'>{card}</Card>
+        </Box>
+        <br />
+        <Box sx={{ minWidth: 275 }}>
+          <Card variant='outlined'>{card}</Card>
+        </Box>
+      </section>
+      <section id='Cards-Container-2'>
+        <p>
+          Modi obcaecati, accusamus, molestias ad impedit placeat omnis quas
+          officiis illo quam tenetur dolores laborum enim sapiente soluta nihil
+          possimus earum suscipit temporibus voluptatum explicabo provident.
+          Aliquam blanditiis facere quo?
+        </p>
+        <div id='Box-Container'>
+          <Box sx={{ display: 'flex' }}>
+            <Card variant='outlined' sx={{ maxWidth: 300 }}>
+              {card}
+            </Card>
+          </Box>
+          <br />
+          <Box sx={{ display: 'flex' }}>
+            <Card variant='outlined' sx={{ maxWidth: 300 }}>
+              {card}
+            </Card>
+          </Box>
+          <br />
+          <Box sx={{ display: 'flex' }}>
+            <Card variant='outlined' sx={{ maxWidth: 300 }}>
+              {card}
+            </Card>
+          </Box>
+        </div>
+      </section>
+      {/* <section id='Sample'>
+        <h1>Sample Contracts</h1>
+        <div id='Sample-Container'>
+          <p>
+            Voluptas illo ullam libero sint velit dignissimos minus. Ipsum enim
+            a pariatur magnam veritatis harum quae error obcaecati animi
+            necessitatibus repudiandae sed rem repellat similique, quidem vero
+            ut recusandae. Ipsum?
+          </p>
+        </div>
+      </section> */}
+      <section id='Footer'>
+        <br />
+        <img
+          src='musall.png'
+          alt='musall'
+          style={{ width: '240px', margin: '0 auto' }}
+        />
+        <br />
+        {/* <a href='#'>alpha</a> */}
+        {/* <h2 style={{ margin: '0 auto' }}>Team</h2> */}
+        <div id='Team'>
+          <div className='Team-Member'>
+            <img src='oroghene.jpg' alt='' className='Team-Member-Photo' />
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit
+              facilis vitae magni esse reprehenderit aperiam cumque!
+              Reprehenderit natus recusandae aperiam rem sit repudiandae
+              voluptatum magni! Dicta amet vel tempora. Ex!
+            </p>
+          </div>
+          <div className='Team-Member'>
+            <img src='oroghene.jpg' alt='' className='Team-Member-Photo' />
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit
+              facilis vitae magni esse reprehenderit aperiam cumque!
+              Reprehenderit natus recusandae aperiam rem sit repudiandae
+              voluptatum magni! Dicta amet vel tempora. Ex!
+            </p>
+          </div>
+        </div>
+        <aside style={{ textAlign: 'center' }}>
+          <span>&#169;</span> 2022 Musall. All rights reserved.
+        </aside>
+      </section>
     </div>
   );
 }
