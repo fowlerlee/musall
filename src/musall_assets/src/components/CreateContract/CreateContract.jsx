@@ -7,7 +7,7 @@ import { fileupload } from '../../../../declarations/fileupload';
 
 // TODO: REDIRECT USER TO DIFFERENT PAGE SHOWING CONTRACT JUST CREATED
 // TODO: CONNECT IMAGE IN FILEUPLOAD CANISTER TO CONTRACT OBJECT IN MUSALL CANISTER
-export function Apartments() {
+export function CreateContract() {
   const [file, setFile] = useState(null);
   const [batchName, setBatchName] = useState('');
   const [actor, setActor] = useState(null);
@@ -134,7 +134,7 @@ export function Apartments() {
   return (
     <Page>
       <FormProvider>
-        <div id='Apartments'>
+        <div id='Create-Contract'>
           <Typography variant='h6' gutterBottom>
             CONTRACT DETAILS
           </Typography>

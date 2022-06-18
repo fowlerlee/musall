@@ -3,24 +3,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header/Header';
 import { Albums } from './components/Albums/Albums';
-import { Apartments } from './components/Apartments/Apartments';
-import { Concerts } from './components/Concerts/Concerts';
 import { Contract } from './components/Contract/Contract';
-import { Films } from './components/Films/Films';
-import { ResearchProjects } from './components/ResearchProjects/ResearchProjects';
-import { VacationHomes } from './components/VacationHomes/VacationHomes';
 import { Description } from './components/Description/Description';
 import { Owner } from './components/Owner/Owner';
 import { Price } from './components/Price/Price';
 import { Scope } from './components/Scope/Scope';
 import { Terms } from './components/Terms/Terms';
 import { AlbumContextProvider } from './context/Album';
+import { Hero } from './components/Hero/Hero';
+import { CreateContract } from './components/CreateContract/CreateContract';
 
 // import AuthService from '../../../';
 // import UserService from './services/UserService';
 
 function App() {
-
   // useEffect( () => {
   //   const initApp = async () => {
   //     // Initialise and set the service accordingly
@@ -52,13 +48,13 @@ function App() {
   return (
     <>
       <AlbumContextProvider>
-        <Header />
         <Routes>
-          <Route path='/' element={<Header />} />
+          <Route path='/' element={<Hero />} />
           <Route
             path='/albums'
             element={
               <>
+                <Header />
                 <Albums />
               </>
             }
@@ -118,12 +114,15 @@ function App() {
               </>
             }
           />
-
-          <Route path='/vacation-homes' element={<VacationHomes />} />
-          <Route path='/apartments' element={<Apartments />} />
-          <Route path='/concerts' element={<Concerts />} />
-          <Route path='/films' element={<Films />} />
-          <Route path='/research-projects' element={<ResearchProjects />} />
+          <Route
+            path='/create'
+            element={
+              <>
+                <Header />
+                <CreateContract />
+              </>
+            }
+          />
         </Routes>
       </AlbumContextProvider>
     </>

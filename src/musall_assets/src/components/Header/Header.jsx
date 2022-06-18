@@ -4,12 +4,7 @@ import { useLocation } from 'react-router';
 import { useIsMobile } from '../../hooks';
 import { Menu } from '../Menu/Menu';
 import { ContractMenu } from '../ContractsMenu/ContractsMenu';
-import {
-  FlexContainer,
-  Text,
-  Button,
-  Spacer,
-} from '@sharingexcess/designsystem';
+import { FlexContainer, Button } from '@sharingexcess/designsystem';
 import { useParams } from 'react-router-dom';
 
 export function Header() {
