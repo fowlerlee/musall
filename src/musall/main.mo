@@ -182,7 +182,7 @@ shared ({ caller = initializer }) actor class () {
         //     buff.append(b);
         // };
         // buff.toArray()
-      return bufOfContracts.toArray()
+      return bufOfContracts.toArray();
     };
 
 
