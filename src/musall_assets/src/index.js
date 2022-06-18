@@ -7,7 +7,6 @@ import { HashRouter } from 'react-router-dom';
 import { EmojiProvider } from 'react-apple-emojis';
 import emojiData from './styles/emojis.json';
 import './styles/index.scss';
-import auth from "../auth/auth";
 
 const container = document.getElementById('app');
 const app = createRoot(container);
