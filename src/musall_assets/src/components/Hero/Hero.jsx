@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Page } from '../Page/Page';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -7,6 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Spacer } from '@sharingexcess/designsystem';
+import PlugConnect from '@psychedelic/plug-connect';
+import canisterIds from '../../../../../.dfx/local/canister_ids.json';
+import { useNavigate } from 'react-router-dom';
 
 const card = (
   <React.Fragment>
@@ -28,14 +31,40 @@ const card = (
 );
 
 export function Hero() {
+  const navigate = useNavigate();
+  const canisterId1 = canisterIds.__Candid_UI.local;
+  const canisterId2 = canisterIds.musall_assets.local;
+  const canisterId3 = canisterIds.musall.local;
+
+  let whitelist = [canisterId1, canisterId2, canisterId3];
+  let host = 'https://mainnet.dfinity.network';
+
+  useEffect(() => {
+    async function verifyConnectionAndAgent() {
+      const connected = await window.ic.plug.isConnected();
+      if (!connected) window.ic.plug.requestConnect({ whitelist, host });
+      if (connected && !window.ic.plug.agent) {
+        window.ic.plug.createAgent({ whitelist, host });
+      }
+    }
+    verifyConnectionAndAgent();
+  }, []);
+
   return (
     <div id='Landing'>
       <section id='Hero'>
         <h1 style={{ fontSize: '6rem' }}>Musall is here!</h1>
         <div id='Buttons-Container'>
-          <Button variant='contained' color='secondary' size='large'>
+          {/* <Button variant='contained' color='secondary' size='large'>
             try alpha
-          </Button>
+          </Button> */}
+          <PlugConnect
+            dark
+            title='Try Alpha'
+            host='https://mainnet.dfinity.network'
+            whitelist={[canisterId1, canisterId2, canisterId3]}
+            onConnectCallback={() => navigate('/albums')}
+          />
           <Spacer width={32} />
           <Button variant='contained' color='secondary' size='large'>
             read more
@@ -114,34 +143,6 @@ export function Hero() {
       </section> */}
       <section id='Footer'>
         <br />
-        <img
-          src='musall.png'
-          alt='musall'
-          style={{ width: '240px', margin: '0 auto' }}
-        />
-        <br />
-        {/* <a href='#'>alpha</a> */}
-        {/* <h2 style={{ margin: '0 auto' }}>Team</h2> */}
-        <div id='Team'>
-          <div className='Team-Member'>
-            <img src='oroghene.jpg' alt='' className='Team-Member-Photo' />
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit
-              facilis vitae magni esse reprehenderit aperiam cumque!
-              Reprehenderit natus recusandae aperiam rem sit repudiandae
-              voluptatum magni! Dicta amet vel tempora. Ex!
-            </p>
-          </div>
-          <div className='Team-Member'>
-            <img src='oroghene.jpg' alt='' className='Team-Member-Photo' />
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit
-              facilis vitae magni esse reprehenderit aperiam cumque!
-              Reprehenderit natus recusandae aperiam rem sit repudiandae
-              voluptatum magni! Dicta amet vel tempora. Ex!
-            </p>
-          </div>
-        </div>
         <aside style={{ textAlign: 'center' }}>
           <span>&#169;</span> 2022 Musall. All rights reserved.
         </aside>

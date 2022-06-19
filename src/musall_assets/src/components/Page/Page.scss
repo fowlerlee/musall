@@ -25,4 +25,8 @@
 
 .se-page {
   @include page;
+  h1,
+  p {
+    color: white;
+  }
 }

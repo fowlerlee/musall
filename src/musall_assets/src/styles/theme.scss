@@ -74,6 +74,11 @@ textarea {
   height: 100vh;
   overflow-y: auto;
 
+  h1,
+  p {
+    color: white;
+  }
+
   @include desktop {
     padding: 84px 32px 48px 314px;
     margin: 0 auto;
