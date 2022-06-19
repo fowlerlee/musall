@@ -4,10 +4,12 @@ import { FormProvider } from 'react-hook-form';
 import { Page } from '../Page/Page';
 import { musall } from '../../../../declarations/musall';
 import { fileupload } from '../../../../declarations/fileupload';
+import { useNavigate } from 'react-router-dom';
 
 // TODO: REDIRECT USER TO DIFFERENT PAGE SHOWING CONTRACT JUST CREATED
 // TODO: CONNECT IMAGE IN FILEUPLOAD CANISTER TO CONTRACT OBJECT IN MUSALL CANISTER
 export function CreateContract() {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [batchName, setBatchName] = useState('');
   const [actor, setActor] = useState(null);
@@ -41,6 +43,7 @@ export function CreateContract() {
     console.log('start upload');
     const batch_name = file.name;
     setBatchName(file.name);
+    console.log('[batch name from upload()]:', batch_name);
     const promises = [];
     const chunkSize = 500000;
 
@@ -91,10 +94,12 @@ export function CreateContract() {
   };
 
   const handleImageUpload = async (event) => {
-    setImageUrl(
-      `http://localhost:8000/assets/${batchName}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`
-    );
+    event.preventDefault();
     await upload();
+    setImageUrl(
+      `http://localhost:8000/assets/${file.name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`
+    );
+    console.log('[batch name]:', batchName);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -108,6 +113,7 @@ export function CreateContract() {
       imageUrl
     );
     console.log('respone:', response);
+    navigate('/albums');
     return response;
   };
 
@@ -125,7 +131,6 @@ export function CreateContract() {
     }
     return (
       <div>
-        <h1>⬇️ UPLOADED FILE ⬇️</h1>
         <img
           // src={`http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`}
           src={`http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`}

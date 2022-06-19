@@ -9,9 +9,12 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useAlbum } from '../../hooks/useAlbum';
 
 export function Albums() {
   const [actor, setActor] = useState(null);
+  const contracts = useAlbum('contracts');
+  console.log(contracts);
 
   useEffect(() => {
     import('../../../../declarations/fileupload').then((module) => {
@@ -19,7 +22,7 @@ export function Albums() {
     });
   }, []);
 
-  function ContractCard({ album }) {
+  function ContractCard({ contract }) {
     return (
       <Card
         sx={{ maxWidth: 345, margin: 1, borderRadius: 2, width: 300 }}
@@ -27,17 +30,21 @@ export function Albums() {
       >
         <CardMedia
           component='img'
-          alt={album?.description}
+          alt={contract?.contract_description}
           height='140'
-          image={album?.cover}
+          image={contract?.url}
         />
         <CardContent>
           <Typography gutterBottom variant='h4' component='div'>
-            {album?.id}
+            {contract?.id}
           </Typography>
           <Typography variant='h6' color='secondary'>
-            Scope of Work: {album?.scope_of_work}
-            Terms of Ownership: {album?.terms_of_ownership}
+            {contract?.contract_description.length > 100
+              ? contract?.contract_description.slice(0, 97) + '...'
+              : contract?.contract_description}
+
+            {/* Scope of Work: {contract?.scope_of_work}
+            Terms of Ownership: {contract?.terms_of_ownership} */}
           </Typography>
         </CardContent>
         <CardActions>
@@ -47,7 +54,7 @@ export function Albums() {
           <Button size='small'>
             <Link
               style={{ textDecoration: 'none', color: 'var(--purple)' }}
-              to={`/albums/${album?.id}`}
+              to={`/albums/${contract?.id}`}
             >
               Learn More
             </Link>
@@ -66,11 +73,11 @@ export function Albums() {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}
         >
-          {albums.map((album, index) => (
-            <ContractCard key={index} album={album} />
+          {contracts.map((contract, index) => (
+            <ContractCard key={index} contract={contract} />
           ))}
         </div>
       </FlexContainer>

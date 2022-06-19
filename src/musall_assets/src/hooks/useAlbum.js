@@ -11,6 +11,18 @@ export const useAlbum = (collection, filter) => {
       : null
   );
 
+  // Works the same as JSON.stringify, but also handles BigInt type,
+  // using 123n format, to make sure the result is reversible:
+  // SOURCE: https://medium.com/@vitalytomilov/reversible-bigint-serialization-8cba9deefad7
+
+  function stringify(value) {
+    if (value !== undefined) {
+      return JSON.stringify(value, (_, v) =>
+        typeof v === 'bigint' ? `${v}n` : v
+      );
+    }
+  }
+
   useEffect(() => {
     if (data[collection]) {
       const updated = Array.isArray(filter)
@@ -22,7 +34,7 @@ export const useAlbum = (collection, filter) => {
         : filter === null
         ? null
         : data[collection];
-      if (updated && JSON.stringify(updated) !== JSON.stringify(data)) {
+      if (updated && stringify(updated) !== stringify(data)) {
         setFiltered(updated);
       }
     }
