@@ -11,17 +11,98 @@ import PlugConnect from '@psychedelic/plug-connect';
 import canisterIds from '../../../../../.dfx/local/canister_ids.json';
 import { useNavigate } from 'react-router-dom';
 
-const card = (
+const card1 = (
   <React.Fragment>
     <CardContent>
-      <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-        <b>Feature</b>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Fair Contracts</b>
       </Typography>
       <Typography variant='body2'>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas
-        cupiditate non doloribus debitis laudantium nemo dolores dolor ullam
-        omnis expedita in veniam, consectetur voluptas doloremque corrupti ipsam
-        quisquam voluptates est!
+        Creators / Musicians develop a contract that is fair and transparent. Work
+        is appropriately scoped and sold at a price that is fair to fans
+        and to Musall investors.
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
+
+const card2 = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Fans own music</b>
+      </Typography>
+      <Typography variant='body2'>
+        Investors / Fans browse through a collection of contracts that are community rated as a good investment.
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
+
+const card3 = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Listen to music and earn</b>
+      </Typography>
+      <Typography variant='body2'>
+        Fans / Investors consume music that they partially own, and receive payment in the form of
+        royalties
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
+
+const card4 = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Music streaming</b>
+      </Typography>
+      <Typography variant='body2'>
+        Musall will host and stream music to users as a service
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
+
+const card5 = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Roylaties payment canister</b>
+      </Typography>
+      <Typography variant='body2'>
+        Musall records frequency of music engagement, then regularly executes a payment via nns-Ledger to user accounts.
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button size='small'>Learn More</Button>
+    </CardActions>
+  </React.Fragment>
+);
+
+const card6 = (
+  <React.Fragment>
+    <CardContent>
+      <Typography sx={{ fontSize: 15 }} color='text.secondary' gutterBottom>
+        <b>Musall expansion</b>
+      </Typography>
+      <Typography variant='body2'>
+        Shared ownership of contracts will be extended to several categories -
+        Housing and Property, Reseach projects, Film projects ...
       </Typography>
     </CardContent>
     <CardActions>
@@ -78,54 +159,55 @@ export function Hero() {
       <section id='Intro'>
         <h1>Introducing Musall</h1>
         <p>
-          Molestiae placeat est exercitationem accusantium quasi adipisci, earum
-          fugiat vitae alias consequatur repellat at, reprehenderit velit
-          suscipit, vel dolore? Quae illum, eaque mollitia ea dignissimos in
-          vitae voluptatem nihil quaerat?
+          Music ownership is broken! At Musall we aim to change ownership to a <em>shared model</em>
         </p>
       </section>
       <section id='Cards-Container-1'>
         <p>
-          Accusantium molestias libero repellendus magni ipsa suscipit hic
-          quaerat vero sequi beatae molestiae, sit cumque saepe laboriosam
-          deleniti sapiente quidem numquam aut eum assumenda magnam ea fuga rem!
-          Dolorem, eveniet.
+          Using key features of the IC:
+        </p>
+        <p>
+          <em>Permissionless</em>, <em>Censorship-resistance</em>, <em>Capture-resistance</em>, and <em>Recursive incentives</em>,
+        </p>
+        <p>
+          Musall provides a platform for creation of contracts by Musicians, which are shared with fans
+          and investors in a <em>shared ownership model</em>.
+        </p>
+        <p>
+          Result: Musicians and their fans earn together from royalties. No more working two jobs to fund your music.
         </p>
         <Box sx={{ minWidth: 275 }}>
-          <Card variant='outlined'>{card}</Card>
+          <Card variant='outlined'>{card1}</Card>
         </Box>
         <br />
         <Box sx={{ minWidth: 275 }}>
-          <Card variant='outlined'>{card}</Card>
+          <Card variant='outlined'>{card2}</Card>
         </Box>
         <br />
         <Box sx={{ minWidth: 275 }}>
-          <Card variant='outlined'>{card}</Card>
+          <Card variant='outlined'>{card3}</Card>
         </Box>
       </section>
       <section id='Cards-Container-2'>
-        <p>
-          Modi obcaecati, accusamus, molestias ad impedit placeat omnis quas
-          officiis illo quam tenetur dolores laborum enim sapiente soluta nihil
-          possimus earum suscipit temporibus voluptatum explicabo provident.
-          Aliquam blanditiis facere quo?
-        </p>
+        <h2>
+          Features to come in the next phase of development
+        </h2>
         <div id='Box-Container'>
           <Box sx={{ display: 'flex' }}>
             <Card variant='outlined' sx={{ maxWidth: 300 }}>
-              {card}
+              {card4}
             </Card>
           </Box>
           <br />
           <Box sx={{ display: 'flex' }}>
             <Card variant='outlined' sx={{ maxWidth: 300 }}>
-              {card}
+              {card5}
             </Card>
           </Box>
           <br />
           <Box sx={{ display: 'flex' }}>
             <Card variant='outlined' sx={{ maxWidth: 300 }}>
-              {card}
+              {card6}
             </Card>
           </Box>
         </div>
