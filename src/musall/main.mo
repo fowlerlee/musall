@@ -58,6 +58,7 @@ shared ({ caller = initializer }) actor class () {
   public type PriceOfContract = Nat;
   public type TermsOfOwnership = Text;
   public type NumberOfTokens = Nat;
+  public type URL = Text;
 
   public type UserSubmission = {
     contract_description: ContractDescription;
@@ -65,6 +66,7 @@ shared ({ caller = initializer }) actor class () {
     price_of_contract: PriceOfContract;
     terms_of_ownership: TermsOfOwnership;
     number_of_tokens: NumberOfTokens;
+    image_url : URL;
   };
 
   public type Contract = {
@@ -76,6 +78,7 @@ shared ({ caller = initializer }) actor class () {
     creator: Principal;
     creator_rating: Nat;
     number_of_tokens: Nat;
+    url: URL;
     // buyers : bufferForPrincipals;
   };
 
@@ -105,7 +108,8 @@ shared ({ caller = initializer }) actor class () {
                                                           userScopeOfWork: Text,
                                                           priceOfContract: Nat,
                                                           termsOfOwnership: Text,
-                                                          numberOfTokens: Nat): async Result.Result<Text, Text>{
+                                                          numberOfTokens: Nat,
+                                                          url: Text): async Result.Result<Text, Text>{
     
     // assert not Principal.isAnonymous(caller); //add the II to this app asap like
     assert userDescription.size() <= MAX_NOTE_CHARS;
@@ -119,6 +123,7 @@ shared ({ caller = initializer }) actor class () {
                 price_of_contract = priceOfContract;
                 terms_of_ownership = termsOfOwnership;
                 number_of_tokens = numberOfTokens;
+                image_url = url;
             };
 
     bufOfBuyers.add(caller);
@@ -134,6 +139,7 @@ shared ({ caller = initializer }) actor class () {
     };
   };
 
+
     private func submit_contract(us: UserSubmission, creator: Principal) : async Result.Result<Text, Text> {
     
     assert nextNoteId <= MAX_CONTRACTS;
@@ -148,6 +154,7 @@ shared ({ caller = initializer }) actor class () {
                 price_of_contract = us.price_of_contract;
                 creator_rating = 1;
                 number_of_tokens = us.number_of_tokens;
+                url = us.image_url;
                 buyers = bufOfBuyers;
             };
             nextNoteId += 1;

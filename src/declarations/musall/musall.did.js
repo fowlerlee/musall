@@ -1,11 +1,13 @@
 export const idlFactory = ({ IDL }) => {
   const Result = IDL.Variant({ 'ok' : IDL.Text, 'err' : IDL.Text });
+  const URL = IDL.Text;
   const ScopeOfWork = IDL.Text;
   const PriceOfContract = IDL.Nat;
   const ContractDescription = IDL.Text;
   const TermsOfOwnership = IDL.Text;
   const Contract = IDL.Record({
     'id' : IDL.Nat,
+    'url' : URL,
     'scope_of_work' : ScopeOfWork,
     'creator' : IDL.Principal,
     'number_of_tokens' : IDL.Nat,
@@ -16,7 +18,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const anon_class_22_1 = IDL.Service({
     'creator_contract_submitted' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Nat, IDL.Text, IDL.Nat],
+        [IDL.Text, IDL.Text, IDL.Nat, IDL.Text, IDL.Nat, IDL.Text],
         [Result],
         [],
       ),
