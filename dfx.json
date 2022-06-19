@@ -1,6 +1,5 @@
 {
   "canisters": {
-
     "musall": {
       "main": "src/musall/main.mo",
       "type": "motoko"
@@ -18,7 +17,7 @@
         "entrypoint": "src/musall_assets/src/index.html"
       },
       "source": [
-        "src/musall_assets/assets",
+        "src/musall_assets/src",
         "dist/musall_assets/"
       ],
       "type": "assets"

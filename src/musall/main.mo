@@ -1,3 +1,5 @@
+// import Ledger  "canister:src/declarations/ledger";
+
 import Array "mo:base/Array";
 import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
@@ -16,6 +18,7 @@ import Result "mo:base/Result";
 import Text "mo:base/Blob";
 import Buffer "mo:base/Buffer";
 import Iter "mo:base/Iter";
+import HashMap "mo:base/HashMap";
 import Types "./Types";
 
 
@@ -184,7 +187,6 @@ shared ({ caller = initializer }) actor class () {
         // buff.toArray()
       return bufOfContracts.toArray();
     };
-
 
 
     // func deduct_contract_creation_fee(caller : Principal) : Types.Result<(), Text> {

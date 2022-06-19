@@ -14,7 +14,7 @@ export const idlFactory = ({ IDL }) => {
     'contract_description' : ContractDescription,
     'terms_of_ownership' : TermsOfOwnership,
   });
-  const anon_class_22_1 = IDL.Service({
+  const anon_class_25_1 = IDL.Service({
     'creator_contract_submitted' : IDL.Func(
         [IDL.Text, IDL.Text, IDL.Nat, IDL.Text, IDL.Nat],
         [Result],
@@ -24,6 +24,6 @@ export const idlFactory = ({ IDL }) => {
     'get_first_contract' : IDL.Func([], [Contract], []),
     'whoami' : IDL.Func([], [IDL.Text], []),
   });
-  return anon_class_22_1;
+  return anon_class_25_1;
 };
 export const init = ({ IDL }) => { return []; };
