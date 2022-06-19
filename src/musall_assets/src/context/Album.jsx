@@ -10,7 +10,6 @@ function AlbumContextProvider({ children }) {
 
   useEffect(() => {
     const getContracts = async () => {
-      console.log('musall canister:', musall);
       let response = await musall.get_all_contracts();
       setContracts(response);
       console.log(response);
@@ -19,11 +18,8 @@ function AlbumContextProvider({ children }) {
     getContracts();
   }, []);
 
-  const album_artists = artists;
-  const artist_albums = albums;
-
   return (
-    <AlbumContext.Provider value={{ album_artists, artist_albums, contracts }}>
+    <AlbumContext.Provider value={{ contracts }}>
       {children}
     </AlbumContext.Provider>
   );
