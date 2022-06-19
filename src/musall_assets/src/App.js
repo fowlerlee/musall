@@ -4,11 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header/Header';
 import { Albums } from './components/Albums/Albums';
 import { Contract } from './components/Contract/Contract';
-import { Description } from './components/Description/Description';
-import { Owner } from './components/Owner/Owner';
-import { Price } from './components/Price/Price';
-import { Scope } from './components/Scope/Scope';
-import { Terms } from './components/Terms/Terms';
 import { AlbumContextProvider } from './context/Album';
 import { Hero } from './components/Hero/Hero';
 import { CreateContract } from './components/CreateContract/CreateContract';
@@ -65,52 +60,6 @@ function App() {
               <>
                 <Header />
                 <Contract />
-              </>
-            }
-          />
-
-          <Route
-            path='/albums/:album_id/description'
-            element={
-              <>
-                <Header />
-                <Description />
-              </>
-            }
-          />
-          <Route
-            path='/albums/:album_id/scope-of-work'
-            element={
-              <>
-                <Header />
-                <Scope />
-              </>
-            }
-          />
-          <Route
-            path='/albums/:album_id/price-of-item'
-            element={
-              <>
-                <Header />
-                <Price />
-              </>
-            }
-          />
-          <Route
-            path='/albums/:album_id/terms-of-ownership'
-            element={
-              <>
-                <Header />
-                <Terms />
-              </>
-            }
-          />
-          <Route
-            path='/albums/:album_id/owner'
-            element={
-              <>
-                <Header />
-                <Owner />
               </>
             }
           />

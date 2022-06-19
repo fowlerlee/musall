@@ -43,7 +43,7 @@ export function CreateContract() {
     console.log('start upload');
     const batch_name = file.name;
     setBatchName(file.name);
-    console.log('[batch name from upload()]:', batch_name);
+    // console.log('[batch name from upload()]:', batch_name);
     const promises = [];
     const chunkSize = 500000;
 
@@ -99,11 +99,10 @@ export function CreateContract() {
     setImageUrl(
       `http://localhost:8000/assets/${file.name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`
     );
-    console.log('[batch name]:', batchName);
+    // console.log('[batch name]:', batchName);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('musall canister:', musall);
     let response = await musall.creator_contract_submitted(
       contract.description,
       contract.scopeOfWork,
@@ -183,6 +182,7 @@ export function CreateContract() {
             <Grid container item lg={12} spacing={1}>
               <TextField
                 fullWidth
+                required
                 value={imageUrl}
                 label='Image URL'
                 id='image-url'
@@ -191,7 +191,9 @@ export function CreateContract() {
               />
               <TextField
                 fullWidth
+                required
                 value={contract.description}
+                maxLength={5}
                 multiline
                 minRows={5}
                 label='Description'
@@ -202,6 +204,7 @@ export function CreateContract() {
               />
               <TextField
                 fullWidth
+                required
                 value={contract.scopeOfWork}
                 multiline
                 minRows={5}
@@ -213,6 +216,7 @@ export function CreateContract() {
               />
               <TextField
                 fullWidth
+                required
                 value={contract.priceOfItem}
                 type='number'
                 label='Price of Item'
@@ -223,6 +227,7 @@ export function CreateContract() {
               />
               <TextField
                 fullWidth
+                required
                 value={contract.termsOfOwnership}
                 multiline
                 minRows={5}
@@ -234,6 +239,7 @@ export function CreateContract() {
               />
               <TextField
                 fullWidth
+                required
                 value={contract.numberOfTokens}
                 type='number'
                 label='Number of Tokens'

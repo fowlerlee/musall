@@ -7,54 +7,26 @@ import { useAlbum } from '../../hooks/useAlbum';
 
 export function Contract() {
   const { album_id } = useParams();
-  const album_contract = useAlbum('artists');
-  const artist = artists[album_id];
-  function Description({ contract }) {
-    return (
-      <FlexContainer direction='vertical'>
-        <Text>DESCRIPTION OF ARTWORK</Text>
-        <Text>{contract.description}</Text>
-      </FlexContainer>
-    );
-  }
-  function Scope({ contract }) {
-    return (
-      <FlexContainer direction='vertical'>
-        <Text>SCOPE OF ARTWORK</Text>
-        <Text>{contract.scope_of_work}</Text>
-      </FlexContainer>
-    );
-  }
-  function Price({ contract }) {
-    return (
-      <FlexContainer direction='vertical'>
-        <Text>PRICE OF ARTWORK</Text>
-        <Text>{contract.price}</Text>
-      </FlexContainer>
-    );
-  }
-  function Terms({ contract }) {
-    return (
-      <FlexContainer direction='vertical'>
-        <Text>TERMS OF OWNERSHIP OF ARTWORK</Text>
-        <Text>{contract.terms_of_ownership}</Text>
-      </FlexContainer>
-    );
-  }
-  function Owner({ contract }) {
-    return (
-      <FlexContainer direction='vertical'>
-        <Text>OWNER OF ARTWORK</Text>
-        <Text>{contract.owner}</Text>
-      </FlexContainer>
-    );
-  }
+  const contracts = useAlbum('contracts');
+  const contract = useAlbum(
+    'contracts',
+    contracts ? contracts.find((c) => c.id === album_id) : null
+  );
 
   return (
     <Page>
       <FlexContainer direction='vertical'>
-        <h1>{album_id}</h1>
-        <h1>Contract</h1>
+        <img src={contract[0]?.url} alt={album_id} style={{ width: '300px' }} />
+        <h1>Description</h1>
+        <p>{contract[0]?.contract_description}</p>
+        <h1>Scope of Work</h1>
+        <p>{contract[0]?.scope_of_work}</p>
+        <h1>Terms of Ownership</h1>
+        <p>{contract[0]?.terms_of_ownership}</p>
+        <h1>Number of Tokens</h1>
+        <p>{contract[0]?.number_of_tokens.toString()} ICP</p>
+        <h1>Price</h1>
+        <p>{contract[0]?.price_of_contract.toString()} ICP</p>
       </FlexContainer>
     </Page>
   );
