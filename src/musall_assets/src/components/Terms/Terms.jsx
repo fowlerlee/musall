@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  FlexContainer,
-  Text,
-  Button,
-  Spacer,
-} from '@sharingexcess/designsystem';
+import { FlexContainer } from '@sharingexcess/designsystem';
 import { useAlbum } from '../../hooks/useAlbum';
 import { Page } from '../Page/Page';
 import { useParams } from 'react-router-dom';
@@ -17,8 +12,8 @@ export function Terms() {
   return (
     <Page>
       <FlexContainer direction='vertical'>
-        <Text>TERMS OF OWNERSHIP OF ARTWORK</Text>
-        <Text>{this_artist.terms_of_ownership}</Text>
+        <h1>TERMS OF OWNERSHIP OF ARTWORK</h1>
+        <p>{this_artist.terms_of_ownership}</p>
       </FlexContainer>
     </Page>
   );

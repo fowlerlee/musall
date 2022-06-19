@@ -80,14 +80,8 @@ export function ContractMenu({ isOpen, setIsOpen, album_id }) {
         {/* <AlbumCover /> */}
         <div id='Contract-MenuContent'>
           <ul>
-            <PlugConnect
-              dark
-              title='login'
-              host='https://mainnet.dfinity.network'
-              whitelist={[canisterId1, canisterId2, canisterId3]}
-              onConnectCallback={() => console.log('Some callback')}
-            />
-            <Spacer height={16} />
+            <MenuLink label='Album Contracts' url='/albums' />
+            <MenuLink label='Create Contract' url='/create' />
             <MenuLink
               label='Description'
               url={`/albums/${album_id}/description`}

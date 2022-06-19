@@ -11,13 +11,13 @@ export function CreateContract() {
   const [file, setFile] = useState(null);
   const [batchName, setBatchName] = useState('');
   const [actor, setActor] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [contract, setContract] = useState({
     description: '',
     scopeOfWork: '',
     priceOfItem: '',
     termsOfOwnership: '',
     numberOfTokens: '',
-    image: '',
   });
 
   useEffect(() => {
@@ -72,7 +72,6 @@ export function CreateContract() {
       ...contract,
       image: batch_name,
     });
-    window.alert(batch_name);
   };
 
   const loadImage = (batch_name) => {
@@ -91,6 +90,12 @@ export function CreateContract() {
     section?.appendChild(newImage);
   };
 
+  const handleImageUpload = async (event) => {
+    setImageUrl(
+      `http://localhost:8000/assets/${batchName}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`
+    );
+    await upload();
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('musall canister:', musall);
@@ -99,10 +104,10 @@ export function CreateContract() {
       contract.scopeOfWork,
       BigInt(contract.priceOfItem),
       contract.termsOfOwnership,
-      BigInt(contract.numberOfTokens)
+      BigInt(contract.numberOfTokens),
+      imageUrl
     );
     console.log('respone:', response);
-    await upload();
     return response;
   };
 
@@ -125,7 +130,7 @@ export function CreateContract() {
           // src={`http://localhost:8000/assets/${batch_name}?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai`}
           src={`http://localhost:8000/assets/${batch_name}?canisterId=rrkah-fqaaa-aaaaa-aaaaq-cai`}
           alt='CHUNKS OF FILE'
-          style={{ width: '300' }}
+          style={{ width: '300px' }}
         />
       </div>
     );
@@ -134,12 +139,51 @@ export function CreateContract() {
   return (
     <Page>
       <FormProvider>
-        <div id='Create-Contract'>
+        <div className='Create-Contract'>
+          <Typography variant='h6' gutterBottom>
+            CONTRACT IMAGE
+          </Typography>
+          <form onSubmit={handleImageUpload}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button
+                variant='contained'
+                component='label'
+                color={file ? 'inherit' : 'secondary'}
+              >
+                {file ? 'uploaded' : 'Upload file'}
+                <input
+                  type='file'
+                  hidden
+                  onChange={(event) => {
+                    setFile(event.target.files?.[0]);
+                  }}
+                />
+              </Button>
+              <Button type='submit' variant='contained' color='primary'>
+                SUBMIT
+              </Button>
+            </div>
+            <br />
+            <NewImage batch_name={batchName} />
+          </form>
+        </div>
+      </FormProvider>
+      <br />
+      <FormProvider>
+        <div className='Create-Contract'>
           <Typography variant='h6' gutterBottom>
             CONTRACT DETAILS
           </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container item lg={12} spacing={1}>
+              <TextField
+                fullWidth
+                value={imageUrl}
+                label='Image URL'
+                id='image-url'
+                name='imageUrl'
+                placeholder='Image URl'
+              />
               <TextField
                 fullWidth
                 value={contract.description}
@@ -195,23 +239,7 @@ export function CreateContract() {
               />
             </Grid>
             <br />
-            {/* <NewImage batch_name={batchName} /> */}
-            <br />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button
-                variant='contained'
-                component='label'
-                color={file ? 'inherit' : 'secondary'}
-              >
-                {file ? 'uploaded' : 'Upload file'}
-                <input
-                  type='file'
-                  hidden
-                  onChange={(event) => {
-                    setFile(event.target.files?.[0]);
-                  }}
-                />
-              </Button>
               <Button type='submit' variant='contained' color='primary'>
                 SUBMIT
               </Button>

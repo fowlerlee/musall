@@ -75,15 +75,15 @@ export function Menu({ isOpen, setIsOpen }) {
       <aside id='Menu' className={isOpen ? 'open' : 'closed'}>
         <div id='MenuContent'>
           <ul>
-            <PlugConnect
+            {/* <PlugConnect
               dark
               title='login'
               host='https://mainnet.dfinity.network'
               whitelist={[canisterId1, canisterId2, canisterId3]}
               onConnectCallback={() => console.log('Some callback')}
             />
-            <Spacer height={16} />
-            <MenuLink label='Home' url='/' />
+            <Spacer height={16} /> */}
+            {/* <MenuLink label='Home' url='/' /> */}
             <MenuLink label='Album Contracts' url='/albums' />
             <MenuLink label='Create Contract' url='/create' />
           </ul>

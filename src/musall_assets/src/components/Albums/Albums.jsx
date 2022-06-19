@@ -32,10 +32,10 @@ export function Albums() {
           image={album?.cover}
         />
         <CardContent>
-          <Typography gutterBottom variant='h5' component='div'>
+          <Typography gutterBottom variant='h4' component='div'>
             {album?.id}
           </Typography>
-          <Typography variant='body2' color='secondary'>
+          <Typography variant='h6' color='secondary'>
             Scope of Work: {album?.scope_of_work}
             Terms of Ownership: {album?.terms_of_ownership}
           </Typography>
