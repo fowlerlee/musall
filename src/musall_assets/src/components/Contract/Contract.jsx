@@ -7,6 +7,7 @@ import { useAlbum } from '../../hooks/useAlbum';
 
 export function Contract() {
   const { album_id } = useParams();
+  const i = album_id - 1;
   const contracts = useAlbum('contracts');
   const contract = useAlbum(
     'contracts',
@@ -16,17 +17,17 @@ export function Contract() {
   return (
     <Page>
       <FlexContainer direction='vertical'>
-        <img src={contract[0]?.url} alt={album_id} style={{ width: '300px' }} />
+        <img src={contract[i]?.url} alt={album_id} style={{ width: '300px' }} />
         <h1>Description</h1>
-        <p>{contract[0]?.contract_description}</p>
+        <p>{contract[i]?.contract_description}</p>
         <h1>Scope of Work</h1>
-        <p>{contract[0]?.scope_of_work}</p>
+        <p>{contract[i]?.scope_of_work}</p>
         <h1>Terms of Ownership</h1>
-        <p>{contract[0]?.terms_of_ownership}</p>
+        <p>{contract[i]?.terms_of_ownership}</p>
         <h1>Number of Tokens</h1>
-        <p>{contract[0]?.number_of_tokens.toString()} ICP</p>
+        <p>{contract[i]?.number_of_tokens.toString()}</p>
         <h1>Price</h1>
-        <p>{contract[0]?.price_of_contract.toString()} ICP</p>
+        <p>{contract[i]?.price_of_contract.toString()} ICP</p>
       </FlexContainer>
     </Page>
   );

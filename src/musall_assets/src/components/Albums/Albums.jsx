@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlexContainer } from '@sharingexcess/designsystem';
 import { Page } from '../Page/Page';
-import { albums } from '../../data';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
