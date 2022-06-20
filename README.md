@@ -4,6 +4,8 @@ Welcome to the repository for MUSALL, the shared ownership platform, totally on 
 
  ![alt text](https://github.com/fowlerlee/musall/blob/f877ed9b8b336c789b62a5b8d0bc3c8f0e9a3b3d/src/musall_assets/assets/Screenshot%202022-06-20%20at%2016.51.21.png)
 
+## Required installed packages
+
 npm LTS
 nvm
 node 16
@@ -15,3 +17,4 @@ dfx start --clean --background (note that you can CTRL+C to exit a replica but n
 
 dfx deploy
 
+npm start
