@@ -1,11 +1,10 @@
-type anon_class_22_1 = 
+type anon_class_25_1 = 
  service {
-   creator_contract_submitted: (text, text, nat, text, nat, text) -> (Result);
+   creator_contract_submitted: (text, text, nat, text, nat) -> (Result);
    get_all_contracts: () -> (vec Contract);
    get_first_contract: () -> (Contract);
    whoami: () -> (text);
  };
-type URL = text;
 type TermsOfOwnership = text;
 type ScopeOfWork = text;
 type Result = 
@@ -25,6 +24,5 @@ type Contract =
    price_of_contract: PriceOfContract;
    scope_of_work: ScopeOfWork;
    terms_of_ownership: TermsOfOwnership;
-   url: URL;
  };
-service : () -> anon_class_22_1
+service : () -> anon_class_25_1

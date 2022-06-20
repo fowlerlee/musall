@@ -176,51 +176,10 @@ shared ({ caller = initializer }) actor class () {
     };
 
     public func get_all_contracts(): async [Contract] {
-        //       let buff : Buffer.Buffer<T.Balance> = Buffer.Buffer(book.size());
-        // for ((owner, user_balances) in book.entries()) {
-            // let b : Buffer.Buffer<Contract> = Buffer.Buffer(bufOfContracts.size());
-        //     for ((token, amount) in user_balances.entries()) {
-        //         b.add({
-        //             owner;
-        //             token;
-        //             amount;
-        //         });
-        //     };
-        //     buff.append(b);
-        // };
-        // buff.toArray()
       return bufOfContracts.toArray();
     };
 
 
-
-    // func deduct_contract_creation_fee(caller : Principal) : Types.Result<(), Text> {
-    //     switch (account_get(caller)) {
-    //     case null { #err "Caller needs an account to submit a proposal" };
-    //     case (?from_tokens) {
-    //              let threshold = system_params.proposal_submission_deposit.amount_e8s;
-    //              if (from_tokens.amount_e8s < threshold) {
-    //                  #err ("Caller's account must have at least " # debug_show(threshold) # " to submit a proposal")
-    //              } else {
-    //                  let from_amount : Nat = from_tokens.amount_e8s - threshold;
-    //                  account_put(caller, { amount_e8s = from_amount });
-    //                  #ok
-    //              };
-    //          };
-    //     };
-    // };
-
-    // func account_get(id : Principal) : ?Tokens = Trie.get(accounts, Types.account_key(id), Principal.equal);
-    // func account_put(id : Principal, tokens : Tokens) {
-    //     accounts := Trie.put(accounts, Types.account_key(id), Principal.equal, tokens).0;
-    // };
-    // func proposal_get(id : Nat) : ?Contract = Trie.get(proposals, Types.proposal_key(id), Nat.equal);
-    // func proposal_put(id : Nat, proposal : Contract) {
-    //     proposals := Trie.put(proposals, Types.proposal_key(id), Nat.equal, proposal).0;
-    // };
-
-
-  // https://forum.dfinity.org/t/is-there-any-address-0-equivalent-at-dfinity-motoko/5445/3
   let null_address : Principal = Principal.fromText("aaaaa-aa");
 
 }
