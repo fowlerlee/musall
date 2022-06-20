@@ -2,7 +2,7 @@
 
 Welcome to the repository for MUSALL, the shared ownership platform, totally on chain on the IC as designed by Dfinity:
 
- ![alt text](https://github.com/Flea00012/call-center/blob/master/Diagrams/Package%20callcenter.svg)
+ ![alt text](https://github.com/fowlerlee/musall/blob/f877ed9b8b336c789b62a5b8d0bc3c8f0e9a3b3d/src/musall_assets/assets/Screenshot%202022-06-20%20at%2016.51.21.png)
 
 npm LTS
 nvm
