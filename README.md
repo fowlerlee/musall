@@ -1,7 +1,6 @@
-# musall
+# MUSALL
 
-Welcome to your new musall project and to the internet computer development community. 
-Please note this project is from the Dfinity examples repo:
+Welcome to the repository for MUSALL, the shared ownership platform, totally on chain on the IC as designed by Dfinity:
 
 npm LTS
 nvm
