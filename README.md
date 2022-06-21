@@ -15,10 +15,58 @@ nvm
 node 16
 dfx 0.10.0
 
-## Getting started
+Download and install the supported version of the DFINITY Canister SDK, with this command:
 
-dfx start --clean --background (note that you can CTRL+C to exit a replica but not the background running replica)
+    ```bash
+    DFX_VERSION=0.10.0 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+    ```
 
-dfx deploy
+## Clone the MUSALL repository
 
-npm start
+In your terminal using SSH:
+
+1.
+    ```bash
+    git clone git@github.com:fowlerlee/musall.git 
+    ```
+
+2. Change to the local working directory for the `musall` repository.
+
+    ```bash
+    cd musall
+    ```
+
+1. Install node modules by running the following command:
+
+    ```bash
+    npm install
+    ```
+
+    If necessary, run `npm audit fix` to fix any issues before continuing.
+
+## Start the local network
+
+    ```bash
+    dfx start 
+    ```
+1. Leave the terminal that displays network operations open and switch your focus to the second terminal.
+
+## Build and deploy the program
+
+1. In a second terminal, build the executable by running the following command:
+
+    ```bash
+    dfx build
+    ```
+2. Deploy MUSALL:
+
+    ```bash
+    dfx canister install --all
+    ```
+3. npm start
+
+## Open MUSALL in a browser
+
+Open a browser tab and navigate to the default host name and port, localhost:8080 or 127.0.0.1:8080.
+
+You should see the Landing Page welcoming you to MUSALL.
