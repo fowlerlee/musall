@@ -16,10 +16,26 @@ import Result "mo:base/Result";
 import Text "mo:base/Blob";
 import Buffer "mo:base/Buffer";
 import Iter "mo:base/Iter";
+import Trie "mo:base/Trie";
 import Types "./Types";
 
 
-shared ({ caller = initializer }) actor class () {
+shared ({ caller = initializer }) actor class Musall(init: Types.MusallStableStorage) = Self {
+  stable var accounts = Types.accounts_fromArray(init.accounts);
+  stable var contracts = Types.contracts_fromArray(init.contracts);
+  // stable var next_contract_id : Nat = 0;
+  stable var system_params : Types.SystemParams = init.system_params;
+
+  func account_get(id : Principal) : ?Types.Tokens = Trie.get(accounts, Types.account_key(id), Principal.equal);
+  func account_put(id : Principal, tokens : Types.Tokens) {
+    accounts := Trie.put(accounts, Types.account_key(id), Principal.equal, tokens).0;
+  };
+
+  func contract_get(id : Nat) : ?Types.Contract = Trie.get(contracts, Types.contract_key(id), Nat.equal);
+  func contract_put(id : Nat, contract : Types.Contract) {
+    contracts := Trie.put(contracts, Types.contract_key(id), Nat.equal, contract).0;
+  };
+
   stable var transactionId: Types.TransactionId = 0;
 
   private let MAX_CONTRACTS = 1_000;
@@ -30,67 +46,28 @@ shared ({ caller = initializer }) actor class () {
   private let MAX_CYPHERTEXT_LENGTH = 40_000;
 
   private type PrincipalName = Text;
-  private stable var nextNoteId: Nat = 1;
+  private stable var nextContractId: Nat = 1;
 
-  public type buffer = Buffer.Buffer<Contract>;
+  public type buffer = Buffer.Buffer<Types.Contract>;
   public type bufferForPrincipals = Buffer.Buffer<Principal>;
 
-  private var bufOfContracts : buffer = Buffer.Buffer<Contract>(0);
+  private var bufOfContracts : buffer = Buffer.Buffer<Types.Contract>(0);
   private var bufOfBuyers : bufferForPrincipals = Buffer.Buffer<Principal>(0);
 
   public shared({ caller }) func whoami(): async Text {
      return Principal.toText(caller);
   };
 
-  public type SystemParams = {
-    contract_creation_fee: Tokens;
-    cost_per_token: Tokens;
-  };
- 
-  public type ContractMarketStorage = {
-    accounts: [Account];
-    contracts: [Contract];
-    system_params: SystemParams;
+  type Profile = {
+      id: Principal;
+      account : Types.Account;
   };
 
-  public type ContractDescription = Text;
-  public type ScopeOfWork = Text;
-  public type PriceOfContract = Nat;
-  public type TermsOfOwnership = Text;
-  public type NumberOfTokens = Nat;
-  public type URL = Text;
-
-  public type UserSubmission = {
-    contract_description: ContractDescription;
-    scope_of_work: ScopeOfWork;
-    price_of_contract: PriceOfContract;
-    terms_of_ownership: TermsOfOwnership;
-    number_of_tokens: NumberOfTokens;
-    image_url : URL;
-  };
-
-  public type Contract = {
-    id: Nat;
-    contract_description: ContractDescription;
-    scope_of_work: ScopeOfWork;
-    price_of_contract: PriceOfContract;
-    terms_of_ownership: TermsOfOwnership;
-    creator: Principal;
-    creator_rating: Nat;
-    number_of_tokens: Nat;
-    url: URL;
-    // buyers : bufferForPrincipals;
-  };
 
     // type Result<Ok, Err> = { #ok : Ok; #err : Err };
-    public type Result<T, E> = Result.Result<T, E>;
-    public type BuyStakeError = { #notFound; #soldOut; #stakeAvailable };
-    public type OperationStatus = { #complete; #failed };
-    public type Tokens = { amount_e8s : Nat }; 
-    public type Account = { owner : Principal; tokens : Tokens };
-    // public let oneToken = { amount_e8s = 10_000_000 };
-    // public let zeroToken = { amount_e8s = 0 }; 
-    public type TransferArgs = { to : Principal; amount : Tokens };
+  public type Result<T, E> = Result.Result<T, E>;
+  public type BuyStakeError = { #notFound; #soldOut; #stakeAvailable };
+  public type OperationStatus = { #complete; #failed };
 
 //debug function to help assert code - like try-catch
   private func expect_operationstatus<T>(opt: ?T, violation_msg: Text): T {
@@ -102,6 +79,46 @@ shared ({ caller = initializer }) actor class () {
                 x
             };
         };
+  };
+  
+
+  stable var profiles : Trie.Trie<Principal, Profile> = Trie.empty();
+
+  public shared({ caller }) func create (account : Types.Account) : async Result.Result<Text, Text> {
+        // Get caller principal
+        let callerId = caller;
+
+        // Reject AnonymousIdentity - check return type
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            throw Error.reject("Access denied to anonymous user. Please provide a Principal Id.")
+        };
+
+        // Associate user account with their principal and tokens
+        let userProfile: Profile = {
+            id = callerId;
+            account = account;
+        };
+
+        let (newProfiles, existing) = Trie.put(
+            profiles,           // Target trie
+            key(callerId),      // Key
+            Principal.equal,    // Equality checker
+            userProfile
+        );
+
+       // If there is an original value, do not update
+        switch(existing) {
+            // If there are no matches, update profiles
+            case null {
+              profiles := newProfiles;
+                 #ok("Profile created for Principal " #Principal.toText(caller))
+            };
+            // Matches pattern of type - opt Profile
+            case (? v) {
+              throw Error.reject("Profile exists for Principal " #Principal.toText(caller))
+            };
+        };
+
   };
 
   public shared({caller}) func creator_contract_submitted(userDescription: Text,
@@ -117,7 +134,7 @@ shared ({ caller = initializer }) actor class () {
     assert termsOfOwnership.size() <= MAX_NOTE_CHARS;
     assert numberOfTokens  > 0;
 
-            let user_submit : UserSubmission = {
+            let user_submit : Types.UserSubmission = {
                 contract_description = userDescription;
                 scope_of_work = userScopeOfWork;
                 price_of_contract = priceOfContract;
@@ -139,14 +156,13 @@ shared ({ caller = initializer }) actor class () {
     };
   };
 
-
-    private func submit_contract(us: UserSubmission, creator: Principal) : async Result.Result<Text, Text> {
+  private func submit_contract(us: Types.UserSubmission, creator: Principal) : async Result.Result<Text, Text> {
     
-    assert nextNoteId <= MAX_CONTRACTS;
+    assert nextContractId <= MAX_CONTRACTS;
                 
         let principalName = Principal.toText(creator);
-            let new_contract : Contract = {
-                id = nextNoteId;
+            let new_contract : Types.Contract = {
+                id = nextContractId;
                 contract_description = us.contract_description;
                 scope_of_work = us.scope_of_work;
                 terms_of_ownership = us.terms_of_ownership;
@@ -157,8 +173,8 @@ shared ({ caller = initializer }) actor class () {
                 url = us.image_url;
                 buyers = bufOfBuyers;
             };
-            nextNoteId += 1;
-            Debug.print("Adding note...");
+            nextContractId += 1;
+            Debug.print("Adding contract...");
 
             switch(?bufOfContracts.add(new_contract)){
               case(null){
@@ -170,15 +186,17 @@ shared ({ caller = initializer }) actor class () {
             };
     };
 
-
-    public func get_first_contract() : async Contract {
+    public func get_first_contract() : async Types.Contract {
         return bufOfContracts.get(0);
     };
 
-    public func get_all_contracts(): async [Contract] {
+    public func get_all_contracts(): async [Types.Contract] {
       return bufOfContracts.toArray();
     };
 
+    private func key(x : Principal) : Trie.Key<Principal> {
+        return { key = x; hash = Principal.hash(x) }
+    };
 
   let null_address : Principal = Principal.fromText("aaaaa-aa");
 
