@@ -67,6 +67,6 @@ In your terminal using SSH:
 
 ## Open MUSALL in a browser
 
-Open a browser tab and navigate to the default host name and port, localhost:8080 or 127.0.0.1:8080.
+Open a browser tab (we recommend you use the latest Brave browser) and navigate to the default host name and port, localhost:8080 or 127.0.0.1:8080.
 
 You should see the Landing Page welcoming you to MUSALL.
