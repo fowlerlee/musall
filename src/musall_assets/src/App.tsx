@@ -1,5 +1,5 @@
 
-import { canisterId, createActor } from "../../declarations/musall";
+import { canisterId, createActor, musall } from "../../declarations/musall";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -13,7 +13,7 @@ import { _SERVICE, Contract } from "../../declarations/musall/musall.did";
 import { AuthClient } from "@dfinity/auth-client";
 import { ActorSubclass } from "@dfinity/agent";
 import { Principal } from "@dfinity/principal";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { remove, get, set } from "local-storage";
 import { Actor, Identity } from "@dfinity/agent";
 import { conditionalDelay } from "@dfinity/agent/lib/cjs/polling/strategy";
@@ -62,6 +62,10 @@ async function handleAuthenticated(authClient: AuthClient) {
   });
 
 }
+
+const contract = async () => {
+    const identity = await musall.creator_contract_submitted("asdfsd", "asdas", BigInt(1), "srerf", BigInt(12), "sdfsd");
+};
 
 init();
 
