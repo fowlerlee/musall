@@ -66,9 +66,8 @@ async function handleAuthenticated(authClient: AuthClient) {
 init();
 
 const App = () => {
-  
   return(<>
-        <h1>App page</h1>
+          <h1>App page</h1>
          </>
     );
 };
