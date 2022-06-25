@@ -1,0 +1,134 @@
+#Landing {
+  @mixin desktop {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+
+  @mixin mobile {
+    @media (max-width: 599px) {
+      @content;
+    }
+  }
+
+  // max-width: 800px;
+  min-height: 100vh;
+  width: 100%;
+  margin: auto;
+  z-index: 1;
+  opacity: 1;
+  animation: fade-in 0.32s ease forwards;
+  height: 100vh;
+  overflow-y: auto;
+
+  @include desktop {
+    margin: 0 auto;
+    padding: 0 120px;
+    // max-width: 1100px;
+  }
+
+  @include mobile {
+    margin-top: 64px;
+    margin-bottom: 12px;
+    padding: 92px 16px 48px 16px;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    z-index: 1;
+    opacity: 1;
+    animation: fade-in 0.32s ease forwards;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  margin: 0;
+  color: white;
+  overflow-x: hidden;
+
+  h1 {
+    font-size: 4rem;
+  }
+  p {
+    font-size: 1.5rem;
+  }
+  a {
+    text-decoration: none;
+    margin: 0 auto;
+    color: white;
+  }
+  section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #Hero {
+    #Buttons-Container {
+      display: flex;
+      width: 100%;
+      // justify-content: flex-start;
+    }
+  }
+
+  #Supernova {
+    // background-color: black;
+    padding: 0;
+
+    #logo {
+      padding: 0;
+      margin: 0 auto;
+      width: 600px;
+      @include mobile {
+        width: 300px;
+      }
+    }
+  }
+
+  #Cards-Container-2 {
+    #Box-Container {
+      display: flex;
+      justify-content: space-between;
+      @include mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+
+  #Sample {
+    // background-color: black;
+    #Sample-Container {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  #Footer {
+    #Team {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      @include mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .Team-Member {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .Team-Member-Photo {
+          height: 250px;
+          width: 250px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

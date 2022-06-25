@@ -1,0 +1,43 @@
+#Header {
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 64px;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 23;
+  background-color: var(--dark-purple);
+
+  @mixin mobile {
+    @media (max-width: 599px) {
+      @content;
+    }
+  }
+
+  @include mobile {
+    padding: 0 16px;
+  }
+
+  .se-button.size-medium {
+    border-radius: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .secondary-header {
+    font-size: 24px;
+    @include mobile {
+      font-size: 20px;
+    }
+  }
+
+  #Header-icon {
+    margin-top: 0;
+  }
+}
