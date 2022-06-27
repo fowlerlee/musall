@@ -32,7 +32,7 @@ export const canisterId = process.env.LEDGER_CANISTER_ID;
 };
   
 /**
- * A ready-to-use agent for the identity canister
+ * A ready-to-use agent for the ledger canister
  * @type {import("@dfinity/agent").ActorSubclass<import("./ledger.did.js")._SERVICE>}
  */
  export const ledger = createActor(canisterId);

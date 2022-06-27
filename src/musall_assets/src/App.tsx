@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { canisterId, createActor, musall } from "../../declarations/musall";
 import {
   BrowserRouter as Router,
@@ -70,9 +71,9 @@ const contract = async () => {
 init();
 
 const App = () => {
-  return(<>
+  return(<div>
           <h1>App page</h1>
-         </>
+         </div>
     );
 };
 

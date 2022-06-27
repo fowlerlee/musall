@@ -1,12 +1,27 @@
 {
   "canisters": {
+    "ledger": { 
+      "type": "custom",
+      "wasm": "src/ledger/ledger.wasm",
+      "candid": "src/ledger/ledger.private.did",
+      "remote": {
+        "candid": "src/ledger/ledger.public.did",
+        "id": {
+          "ic": "ryjl3-tyaaa-aaaaa-aaaba-cai"
+        }
+      }
+    },
     "musall": {
       "main": "src/musall/main.mo",
       "type": "motoko"
     },
+    "fileupload": {
+      "main": "src/fileupload/main.mo",
+      "type": "motoko"
+    },
     "musall_assets": {
       "dependencies": [
-        "musall"
+        "musall","fileupload"
       ],
       "frontend": {
         "entrypoint": "src/musall_assets/src/index.html"
