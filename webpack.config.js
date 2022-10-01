@@ -129,8 +129,8 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       ...canisterEnvVariables,
-      IDENTITY_CANISTER_ID: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
-      LEDGER_CANISTER_ID: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+      // IDENTITY_CANISTER_ID: 'rdmx6-jaaaa-aaaaa-aaadq-cai',
+      // LEDGER_CANISTER_ID: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
     }),
     new webpack.ProvidePlugin({
       Buffer: [require.resolve('buffer/'), 'Buffer'],
